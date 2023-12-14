@@ -1,0 +1,26 @@
+.textLogo {
+    position: absolute;
+    top: 40%; 
+    left: 7%;
+    transform: translate(50%,-50%);
+    transform: translate(20%,-20%);
+    font-family: verdana;
+    font-size: 3rem;
+    font-weight: 700;
+    /* color: #f5f5f5; */
+    color: #d1a5fa;
+    text-shadow: 1px 1px 1px #8a6bfa,
+        -2px 2px 1px #8a6bfa,
+        -2px 3px 1px #8a6bfa,
+        -2px 4px 1px #8a6bfa,
+        -2px 5px 1px #8a6bfa,
+        -2px 6px 1px #8a6bfa,
+        -2px 7px 1px #8a6bfa,
+        -2px 8px 1px #8a6bfa,
+        -2px 9px 1px #8a6bfa,
+        -2px 10px 1px #8a6bfa,
+    1px 18px 6px rgba(16,16,16,0.4),
+    1px 22px 10px rgba(16,16,16,0.2),
+    1px 25px 35px rgba(16,16,16,0.2),
+    1px 30px 60px rgba(16,16,16,0.4);
+}
