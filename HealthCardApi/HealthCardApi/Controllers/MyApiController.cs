@@ -26,7 +26,7 @@ namespace myApi.Controllers
             {
                 var users = await _myApiRepository.GetAllUsers();
 
-                await _myApiRepository.SendOTP("test");
+                //await _myApiRepository.SendOTP("test");
 
                 return Ok(users);
             }
@@ -44,6 +44,7 @@ namespace myApi.Controllers
         {
             try
             {
+      
                 var info = await _myApiRepository.GetUserInfo(UserID);
 
                 return Ok(info);
@@ -116,7 +117,7 @@ namespace myApi.Controllers
             try
             {
 
-                var user = _myApiRepository.AuthenticateUser(userData);
+                var user = await _myApiRepository.AuthenticateUser(userData);
                 if (user != null)
                 {
                     return Ok(user);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UwRjLtZRtzOvl0g8Xw2MRYznmPtIgSI6lx+NCu+Y3DL3kkZmgA/2qoMc3NKjJopPVA64DRIaxHnHu/DltAFI2w==",
+  "dgSpecHash": "4m8ipMj4O+Quo+umh+AkAXPq1g0LyyFmU5WdtmXqRnfoJleYh/ow2YiXOnkyJSKgtpnB+hRk+gubK1StBA8bXQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dim\\source\\repos\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
+  "projectFilePath": "C:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dim\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\dim\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

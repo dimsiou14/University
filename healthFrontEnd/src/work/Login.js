@@ -18,6 +18,8 @@ import CardProfile from "./CardProfile"
 import { useLayoutEffect } from "react"
 import { userActions } from "./redux/user"
 import { useDispatch } from "react-redux"
+import toast from 'react-hot-toast'
+import { Navigate } from "react-router"
 
 
 
@@ -33,6 +35,8 @@ const Login = () => {
   
   const [activeTab, setActiveTab] = useState(1)
   const [isOpenCardProfile, setIsOpenCardProfile] = useState(false)
+  const [hasLogedIn, setHasLogedIn] = useState(false)
+  const [isDoctor, setIsDoctor] = useState(false)
   const dispatch = useDispatch()
 
 
@@ -53,22 +57,26 @@ const Login = () => {
     Promise.all([fetch('/myApi/auth', requestOptions)])
     .then((res) => {
       if (res[0].ok) {
-        return Promise.all([res[0]])
+        return Promise.all([res[0].json()])
       }
       return Promise.reject(res)
     }).then((res) => {
       const responseUser = res[0]
-      const user = {
-        name:responseUser.Name,
-        type:responseUser.type
+      dispatch(userActions.SetUser(responseUser))
+      toast.success('Login successfully')
+      setIsOpenCardProfile(true)
+      setHasLogedIn(true)
+      if (responseUser.type === 1) {
+        setIsDoctor(true)
       }
-      dispatch(userActions.SetUser(user))
      
     }).catch((e) => {
-      console.log("Failed to sign up user..!")
+     
+      setIsOpenCardProfile(false)
+      toast.error('Failed to sign up user..!')
     })
 
-    setIsOpenCardProfile(true)
+    
   }
 
   const SignUpHandler = (e) => {
@@ -400,6 +408,7 @@ const Login = () => {
         isOpen={isOpenCardProfile}
         setIsOpen={setIsOpenCardProfile}
         />
+        {hasLogedIn && isDoctor? <Navigate to="doctorhome" replace={true} /> : hasLogedIn ? <Navigate to="doctorhome" replace={true} /> : <></>}
       </div>
     </div>
   )

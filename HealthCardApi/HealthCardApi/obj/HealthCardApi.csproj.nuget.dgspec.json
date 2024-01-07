@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dim\\source\\repos\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj": {}
+    "C:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dim\\source\\repos\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj": {
+    "C:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dim\\source\\repos\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
+        "projectUniqueName": "C:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
         "projectName": "HealthCardApi",
-        "projectPath": "C:\\Users\\dim\\source\\repos\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
+        "projectPath": "C:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
         "packagesPath": "C:\\Users\\dim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dim\\source\\repos\\HealthCardApi\\HealthCardApi\\obj\\",
+        "outputPath": "C:\\University\\University\\HealthCardApi\\HealthCardApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

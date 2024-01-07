@@ -1,14 +1,13 @@
 import './App.css';
-import Home from './work/Home'
 import Login from './work/Login';
 import 'bootstrap/dist/css/bootstrap.css';
-import DoctorHome from './work/DoctorHome';
-import UserCard from './work/UserCard';
-import CardProfile from './work/CardProfile';
+import Router from './work/Router';
+
 
 const App = () => {
   return (
-    <Login/>
+    
+    <Router/>
   )
 }
 
