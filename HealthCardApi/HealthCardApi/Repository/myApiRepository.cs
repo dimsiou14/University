@@ -37,6 +37,8 @@ namespace myApi.Repository
                 Type = i.UserType,
                 Name = i.UserName,
                 Password = i.UserPassword,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
                 AFM = i.AFM,
                 PhoneNumber = i.PhoneNumber,
                 Email = i.Email,
@@ -54,6 +56,8 @@ namespace myApi.Repository
                 Type = i.UserType,
                 Name = i.UserName,
                 Password = i.UserPassword,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
                 AFM = i.AFM,
                 PhoneNumber = i.PhoneNumber,
                 Email = i.Email,
@@ -73,6 +77,8 @@ namespace myApi.Repository
                 Type = i.UserType,
                 Name = i.UserName,
                 Password = i.UserPassword,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
                 AFM = i.AFM,
                 PhoneNumber = i.PhoneNumber,
                 Email = i.Email,
@@ -99,28 +105,32 @@ namespace myApi.Repository
 
         public async Task<UserModel> SaveUser(List<string> userData)
         {
-         
+
             User newUser = new User()
             {
-           
-                UserType = (int)UserType.Patient,
+
+                UserType = Convert.ToInt32(userData[8]),
                 UserName = userData[0],
                 UserPassword = userData[1],
+                FirstName = userData[2],
+                LastName = userData[3],
                 Email = userData[4],
                 PhoneNumber = userData[5],
                 AFM = userData[6],
-                HasOTP = bool .Parse(userData[7])
+                HasOTP = bool.Parse(userData[7]) // userData[7] == "on" ? true : false
             };
 
             await _context.UserInfo.AddAsync(newUser);
             await _context.SaveChangesAsync();
 
-            var user = await _context.UserInfo.Where(i => i.Id == 1).Select(i => new UserModel
+            var user = await _context.UserInfo.Where(i => i.Id == newUser.Id).Select(i => new UserModel
             {
                 Id = i.Id,
                 Type = i.UserType,
                 Name = i.UserName,
                 Password = i.UserPassword,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
                 Email = i.Email,
                 PhoneNumber = i.PhoneNumber,
                 AFM = i.AFM,
@@ -140,6 +150,8 @@ namespace myApi.Repository
                 Type = i.UserType,
                 Name = i.UserName,
                 Password = i.UserPassword,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
                 Email = i.Email,
                 PhoneNumber = i.PhoneNumber,
                 AFM = i.AFM,
@@ -211,6 +223,13 @@ namespace myApi.Repository
                 return isSend;
             }
 
+        }
+
+        public bool AuthenticateOTP(int userId, string OTPcode)
+        {
+            var isValid = _context.OTPMappings.Any(i => i.UserId == userId && i.OTPCode == OTPcode);
+
+            return isValid;
         }
     }
 }

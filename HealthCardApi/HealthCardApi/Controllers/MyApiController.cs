@@ -137,6 +137,42 @@ namespace myApi.Controllers
 
         }
 
+        [Route("myApi/authOTP")]
+        [HttpPost]
+        public Task<IActionResult> AuthenticateUser([FromBody] AuthOTPItem item)
+        {
+            try
+            {
+
+                bool isValid = _myApiRepository.AuthenticateOTP(item.Id, item.Code);
+
+                if (isValid)
+                {
+                    var user = _myApiRepository.GetUserInfo(item.Id);
+                    if (user != null)
+                    {
+                        return Ok(user);
+                    }
+                    else
+                    {
+                        return StatusCode(500);
+                    }
+                }
+                else
+                {
+                    return StatusCode(500);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+                return StatusCode(500);
+            }
+
+        }
+
         [Route("myApi/history/add")]
         [HttpPost]
         public async Task<IActionResult> AddHistory([FromBody] string rawString)

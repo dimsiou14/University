@@ -20,6 +20,7 @@ import { userActions } from "./redux/user"
 import { useDispatch } from "react-redux"
 import toast from 'react-hot-toast'
 import { Navigate } from "react-router"
+import Select from "react-select"
 
 
 
@@ -37,6 +38,7 @@ const Login = () => {
   const [isOpenCardProfile, setIsOpenCardProfile] = useState(false)
   const [hasLogedIn, setHasLogedIn] = useState(false)
   const [isDoctor, setIsDoctor] = useState(false)
+  const [userType, setUserType] = useState({label:'Patient', value:'0'})
   const dispatch = useDispatch()
 
 
@@ -83,28 +85,38 @@ const Login = () => {
     e.preventDefault()
     const postVariables = []
     for (let i = 0; i < e.target.length - 1; i++) {
-
-      console.log(e.target[i].value)
-      postVariables.push(e.target[i].value)
-    }
-
-    const requestOptions  = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postVariables)
-    }
-
-    Promise.all([fetch('/myApi/newUser', requestOptions)])
-    .then((res) => {
-      if (res[0].ok) {
-        return Promise.all([res[0]])
+      if (i === 2) {
+        continue
       }
-      return Promise.reject(res)
-    }).then((res) => {
-      console.log(res)
-    }).catch((e) => {
-      console.log("Failed to sign up user..!")
-    })
+      console.log(e.target[i].value)
+      postVariables.push(e.target[i].type === 'checkbox' ? e.target[i].checked.toString() : e.target[i].value)
+    }
+    postVariables.push(userType.value)
+
+    if (postVariables.length >= 9) {
+
+      const requestOptions  = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postVariables)
+      }
+
+      Promise.all([fetch('/myApi/newUser', requestOptions)])
+      .then((res) => {
+        if (res[0].ok) {
+          return Promise.all([res[0].text()])
+        }
+        return Promise.reject(res)
+      }).then((res) => {
+        console.log(res[0])
+        toast.success("New user saved successfully !")
+        setActiveTab(1)
+      }).catch((e) => {
+        console.log("Failed to sign up user..!")
+      })
+    } else {
+      toast.error("You have to fill all the fields...")
+    }
     
   }
 
@@ -304,6 +316,33 @@ const Login = () => {
                               fontFamily: "Montserrat,Helvetica,Arial,serif",
                             }}
                           >
+                            UserType:
+                          </Label>
+                        </Col>
+                        <Col
+                          md={3}
+                          style={{ width: "200px", marginLeft: "100px" }}
+                        >
+                          <Select
+                          options={[{label:'Patient', value:'0'},
+                          {label:'Doctor', value:'1'}]}
+                          defaultValue={{label:'Patient', value:'0'}}
+                         
+                          onChange={(option) => {
+                            setUserType(option)
+                          }}
+                          />
+                      
+                        </Col>
+                      </Row>
+                      <Row style={{ width: "100%", marginTop: "20px" }}>
+                        <Col md={2}>
+                          <Label
+                            style={{
+                              width: "100px",
+                              fontFamily: "Montserrat,Helvetica,Arial,serif",
+                            }}
+                          >
                             FirstName:
                           </Label>
                         </Col>
@@ -386,15 +425,34 @@ const Login = () => {
                           <Input id="AFM" type="text" />
                         </Col>
                       </Row>
+                      <Row style={{ width: "100%", marginTop: "20px" }}>
+                        <Col md={2}>
+                          <Label
+                            style={{
+                              width: "100px",
+                              fontFamily: "Montserrat,Helvetica,Arial,serif",
+                            }}
+                          >
+                            HasOTP:
+                          </Label>
+                        </Col>
+                        <Col
+                          md={3}
+                          style={{ width: "200px", marginLeft: "100px" }}
+                        >
+                          <Input id="hasOTP" type="checkbox" />
+                        </Col>
+                      </Row>
 
+                     
                       <Input
                         type="submit"
                         style={{
-                          marginTop: "50px",
+                          marginTop: "10px",
                           background: "pink",
                           color: "white",
                           fontSize: "1.1rem",
-                          fontWeight: "bold",
+                          fontWeight: "bold"
                         }}
                       />
                     </Form>
@@ -408,7 +466,7 @@ const Login = () => {
         isOpen={isOpenCardProfile}
         setIsOpen={setIsOpenCardProfile}
         />
-        {hasLogedIn && isDoctor? <Navigate to="doctorhome" replace={true} /> : hasLogedIn ? <Navigate to="doctorhome" replace={true} /> : <></>}
+        {hasLogedIn && isDoctor? <Navigate to="doctorhome" replace={true} /> : hasLogedIn ? <Navigate to="home" replace={true} /> : <></>}
       </div>
     </div>
   )

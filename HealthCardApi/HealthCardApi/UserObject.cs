@@ -62,4 +62,10 @@ namespace myApi
 
         public string ImageSrc { get; set; }
     }
+
+    public class AuthOTPItem
+    {
+        public int Id { get; set; }
+        public string Code { get; set; }
+    }
 }

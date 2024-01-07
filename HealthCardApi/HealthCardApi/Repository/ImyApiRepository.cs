@@ -22,5 +22,6 @@ namespace myApi.Repository
         Task<UserModel> SaveUser(List<string> userData);
         Task<UserModel> AuthenticateUser(LoginObject userData);
         Task<bool> SendOTP(string emailRecipient);
+        bool AuthenticateOTP(int userId, string OTPcode);
     }
 }
