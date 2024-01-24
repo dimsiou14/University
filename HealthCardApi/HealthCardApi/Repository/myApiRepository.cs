@@ -105,25 +105,46 @@ namespace myApi.Repository
 
         public async Task<UserModel> SaveUser(List<string> userData)
         {
-
-            User newUser = new User()
+            User newUser = new User();
+            if (userData.Count > 9)
             {
+                int userId = Convert.ToInt32(userData[9]);
+                newUser = await _context.UserInfo.Where(u => u.Id == userId).FirstOrDefaultAsync();
+                if (newUser != null)
+                {
+                    newUser.UserName = userData[0];
+                    newUser.UserPassword = userData[1];
+                    newUser.FirstName = userData[2];
+                    newUser.LastName = userData[3];
+                    newUser.Email = userData[4];
+                    newUser.PhoneNumber = userData[5];
+                    newUser.AFM = userData[6];
+                    newUser.HasOTP = bool.Parse(userData[7]);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                newUser = new User()
+                {
 
-                UserType = Convert.ToInt32(userData[8]),
-                UserName = userData[0],
-                UserPassword = userData[1],
-                FirstName = userData[2],
-                LastName = userData[3],
-                Email = userData[4],
-                PhoneNumber = userData[5],
-                AFM = userData[6],
-                HasOTP = bool.Parse(userData[7]) // userData[7] == "on" ? true : false
-            };
+                    UserType = Convert.ToInt32(userData[8]),
+                    UserName = userData[0],
+                    UserPassword = userData[1],
+                    FirstName = userData[2],
+                    LastName = userData[3],
+                    Email = userData[4],
+                    PhoneNumber = userData[5],
+                    AFM = userData[6],
+                    HasOTP = bool.Parse(userData[7]) // userData[7] == "on" ? true : false
+                };
 
-            await _context.UserInfo.AddAsync(newUser);
-            await _context.SaveChangesAsync();
+                await _context.UserInfo.AddAsync(newUser);
+                await _context.SaveChangesAsync();
+            }
 
-            var user = await _context.UserInfo.Where(i => i.Id == newUser.Id).Select(i => new UserModel
+            int userID = newUser != null ? newUser.Id : 0;
+            var user = await _context.UserInfo.Where(i => i.Id == userID).Select(i => new UserModel
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -230,6 +251,34 @@ namespace myApi.Repository
             var isValid = _context.OTPMappings.Any(i => i.UserId == userId && i.OTPCode == OTPcode);
 
             return isValid;
+        }
+
+        public async Task<HistoryModel> AddHistory(HistoryObject data)
+        {
+            History newHistory = new History();
+
+            newHistory.DoctorId = data.DoctorId;
+            newHistory.DoctorName = data.DoctorName;
+            newHistory.UserId = data.UserId;
+            newHistory.Recorded = DateTime.Now;
+            newHistory.ImageSrc = data.ImageSrc;
+
+            await _context.HistoryInfo.AddAsync(newHistory);
+            await _context.SaveChangesAsync();
+
+            int id = newHistory.HistoryId;
+
+            HistoryModel history = await _context.HistoryInfo.Where(h => h.HistoryId == id).Select(h => new HistoryModel
+            {
+                HistoryId = id,
+                DoctorId = h.DoctorId,
+                DoctorName = h.DoctorName,
+                UserId = h.UserId,
+                Recorded= h.Recorded,
+                ImageSrc= h.ImageSrc
+            }).FirstOrDefaultAsync();
+
+            return history;
         }
     }
 }

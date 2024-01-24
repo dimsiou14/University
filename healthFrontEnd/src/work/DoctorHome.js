@@ -1,23 +1,29 @@
-import { useLayoutEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import DataTable from "react-data-table-component"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Button, Col, Navbar } from "reactstrap"
 import toast from 'react-hot-toast'
 import { Plus } from "react-feather"
 import "./DoctorHome.css"
 import NewHistoryModal from "./NewHistoryModal"
+import { optionActions } from "./redux/options"
+import { userActions } from "./redux/user"
+import HistoryModal from "./HistoryModal"
 
 
 const DoctorHome = () => {
 
     const User = useSelector(state => state.user.user)
+    const dispatch = useDispatch()
     const [data, setData] = useState([])
     const [hover, setHover] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
+    const [isPrifileCardOpen, setIsProfileCardOpen] = useState()
 
     const FetchData = () => {
-
-        Promise.all([fetch(`/myApi/doctorusers`)]).then((res => {
+        const isUserLoggedIn = localStorage.getItem('user')
+        const userData = JSON.parse(isUserLoggedIn)
+        Promise.all([fetch(`/myApi/doctorusers?DoctorID=${userData.id}`)]).then((res => {
             if (res[0].ok) {
                 return Promise.all([res[0].json()])
               }
@@ -25,6 +31,27 @@ const DoctorHome = () => {
         })).then((res) => {
             const response = res[0]
             setData(response)
+            Promise.all([fetch(`/myApi/users`)]).then((res => {
+                if (res[0].ok) {
+                    return Promise.all([res[0].json()])
+                  }
+                  return Promise.reject(res)
+            })).then((res) => {
+                const response = res[0]
+                const patientList = []
+                response.map((p) => {
+                    if (p.type === 0) {
+                        patientList.push({
+                            label:p.name, 
+                            value:p.id.toString()
+                        })
+                    }
+                })
+                dispatch(optionActions.setPatientOptions(patientList))
+            }).catch((e) => {
+    
+                toast.error('Failed to load doctor users..!')
+            })
         }).catch((e) => {
 
             toast.error('Failed to load doctor users..!')
@@ -37,15 +64,33 @@ const DoctorHome = () => {
 
     const TableColumns = [
         {
-            name:"UserId",
+            name:"Patient",
             cell:(row) => {
-                return (row.Id) 
+                return (`${row.lastName + " " + row.firstName}`) 
             }
         },
         {
-            name:"Name",
+            name:"AFM",
             cell:(row) => {
-                return (row.Name) 
+                return (row.afm) 
+            }
+        },
+        {
+            name:'Phone',
+            cell:(row) => {
+                return (row.phoneNumber)
+            }
+        },
+        {
+            name:'HealthCard',
+            cell:(row) => {
+                return (
+                    <Button onClick={() => {
+                        setIsProfileCardOpen(true)
+                    }}>
+                        Show
+                    </Button>
+                )
             }
         }
 
@@ -53,6 +98,14 @@ const DoctorHome = () => {
 
     useLayoutEffect(() => {
         FetchData()
+    }, [])
+
+    useEffect(() => {
+        const isUserLoggedIn = localStorage.getItem('user')
+        if (isUserLoggedIn) {
+            const userData = JSON.parse(isUserLoggedIn)
+            dispatch(userActions.SetUser(userData))
+        }
     }, [])
 
 return (
@@ -97,6 +150,7 @@ return (
        </Button>
        </div>
        {isOpen ? <NewHistoryModal isOpen={isOpen} setIsOpen={setIsOpen}/> : null}
+       <HistoryModal isOpenHistory={isPrifileCardOpen} setIsOpenHistory={setIsProfileCardOpen}/>
         </div>
     </div>
 )

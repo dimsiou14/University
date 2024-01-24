@@ -58,6 +58,8 @@ namespace myApi
 
         public int DoctorId { get; set; }
 
+        public string DoctorName { get; set; }
+
         public DateTime Recorded { get; set; }
 
         public string ImageSrc { get; set; }

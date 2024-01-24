@@ -65,6 +65,7 @@ const Login = () => {
     }).then((res) => {
       const responseUser = res[0]
       dispatch(userActions.SetUser(responseUser))
+      localStorage.setItem('user', JSON.stringify(responseUser))
       toast.success('Login successfully')
       setIsOpenCardProfile(true)
       setHasLogedIn(true)
@@ -104,7 +105,7 @@ const Login = () => {
       Promise.all([fetch('/myApi/newUser', requestOptions)])
       .then((res) => {
         if (res[0].ok) {
-          return Promise.all([res[0].text()])
+          return Promise.all([res[0].json()])
         }
         return Promise.reject(res)
       }).then((res) => {

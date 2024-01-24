@@ -23,5 +23,6 @@ namespace myApi.Repository
         Task<UserModel> AuthenticateUser(LoginObject userData);
         Task<bool> SendOTP(string emailRecipient);
         bool AuthenticateOTP(int userId, string OTPcode);
+        Task<HistoryModel> AddHistory(HistoryObject data);
     }
 }

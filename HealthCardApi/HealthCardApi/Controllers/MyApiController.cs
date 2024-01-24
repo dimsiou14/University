@@ -58,11 +58,12 @@ namespace myApi.Controllers
 
         [Route("myApi/doctorusers")]
         [HttpGet]
-        public async Task<IActionResult> GetDoctorUsers(int DoctorID)
+        public async Task<IActionResult> GetDoctorUsers([FromQuery] int DoctorID)
         {
            
             try
             {
+
                 var doctorusers = await _myApiRepository.GetDoctorUsers(DoctorID);
 
                 return Ok(doctorusers);
@@ -98,9 +99,9 @@ namespace myApi.Controllers
         {
             try
             { 
-                await _myApiRepository.SaveUser(userData);
+                var user = await _myApiRepository.SaveUser(userData);
 
-                return Ok("Ok");
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -139,7 +140,7 @@ namespace myApi.Controllers
 
         [Route("myApi/authOTP")]
         [HttpPost]
-        public Task<IActionResult> AuthenticateUser([FromBody] AuthOTPItem item)
+        public IActionResult AuthenticateUser([FromBody] AuthOTPItem item)
         {
             try
             {
@@ -175,14 +176,14 @@ namespace myApi.Controllers
 
         [Route("myApi/history/add")]
         [HttpPost]
-        public async Task<IActionResult> AddHistory([FromBody] string rawString)
+        public async Task<IActionResult> AddHistory([FromBody] HistoryObject data)
         {
             try
             {
 
-                //_myApiRepository.AddHistory();
+                var history = await _myApiRepository.AddHistory(data);
 
-                return Ok(rawString);
+                return Ok(history);
             }
             catch (Exception ex)
             {

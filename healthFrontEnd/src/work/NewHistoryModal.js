@@ -1,27 +1,54 @@
 
+import { useState, useRef } from "react"
 import { toast } from "react-hot-toast"
 import { useSelector } from "react-redux"
-import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
+import { Button, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
+import SignaturePad from "./SignaturePad"
+import Select from "react-select"
+import PdfDoc from "./PdfDoc"
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 const NewHistoryModal = (props) => {
 
     const User = useSelector(state => state.user.user)
+    const PatientOptions = useSelector(state => state.options.options.patients)
+    const [isCanvasOpen, setIsCanvasOpen] = useState(false)
+    const [text, setText] = useState("")
+    const [patient, setPatient] = useState({})
+    const [url, setUrl] = useState()
+    const [isPdfOpen, setIsPdfOpen] = useState(false)
+    const refD = useRef(null)
 
     const SaveHandler = (props) => {
 
+        let id = 0
+        html2canvas(refD.current, {letterRendering: 1, allowTaint: true, useCORS: true}).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            const img = url
+            pdf.addImage(imgData, "JPEG", 0, 0)
+            pdf.text("Signature", 180, 150)
+            pdf.addImage(img, "JPEG", 150, 151, 50, 40)
+            id = pdf.getFileId()
+            pdf.save(`perscription${id}`)
+        
+          })
+
         
         const newHistory = {
-            UserId : 1,
+            HisotryId:0,
+            UserId : parseInt(patient.value),
             DoctorId : User.id,
             DoctorName : User.name,
             Recorded : new Date(),
-            ImageSrc : `./ImageRepos/${new Date()}`
+            ImageSrc : `C:\Users\dim\Downloads\perscription${id}`
         }
 
         const requestOptions = {
             method:'POST',
-            type:'application/json',
-            body:JSON.parse(newHistory)
+            headers: { 'Content-Type': 'application/json' },
+            body:JSON.stringify(newHistory)
         }
 
         Promise.all([fetch(`/myApi/history/add`, requestOptions)]).then((res) => {
@@ -44,11 +71,66 @@ const NewHistoryModal = (props) => {
         <div>
             <Modal isOpen={props.isOpen}>
                 <ModalHeader>
-                    New History
+                    New Perscription
                 </ModalHeader>
                 <ModalBody>
-                    <Input type='select'/>
-                    <Input type="file" />
+                    <div style={{display:'flex', justifyContent:'start', alignItems:'center'}}>
+                        <Label style={{width:'100px'}}>
+                            Doctor
+                        </Label>
+                        <Input type="text"                   
+                    defaultValue={User.name}
+                    disabled={true}
+                    style={{width:'200px'}}
+                    />
+                    </div>
+                    <div style={{display:'flex', justifyContent:'start', alignItems:'center', marginTop:'10px'}}>
+                    <Label style={{width:'100px'}}>
+                            Patient
+                        </Label>
+                        <div style={{width:'200px'}}>
+                        <Select
+                        options={PatientOptions}
+                        value={patient}
+                        onChange={(option) => {
+                            setPatient(option)
+                        }}
+                        />
+                        </div>
+                    </div>
+                    <div style={{display:'flex', justifyContent:'start', alignItems:'center', marginTop:'10px'}}>
+                    <Label style={{width:'100px'}}>
+                            Document
+                        </Label>
+                        <Input type="textarea" onChange={(e) => {
+                        setText(e.target.value)                          
+                        }}
+                        style={{width:'200px'}}/>
+                    </div>
+                    <div style={{display:'flex', justifyContent:'start', alignItems:'center', marginTop:'10px'}}>
+                    <Label style={{width:'100px'}}>
+                            Signature
+                        </Label>
+                        <Button color="warning"
+                        style={{width:'200px'}}
+                     
+                    onClick={() => {
+                        setIsCanvasOpen(true)
+                    }}>
+                        Sign 
+                    </Button>
+                    </div>
+                    
+                    <br/>
+                
+                    {url !== undefined ? <Button onClick={() => {
+                        setIsPdfOpen(true)
+                    }}>
+                        Preview
+                    </Button> : null}
+
+                   
+                   
                 </ModalBody>
                 <ModalFooter>
                     <Button color="danger"
@@ -58,12 +140,7 @@ const NewHistoryModal = (props) => {
                     >
                         Cancel
                     </Button>
-                    <Button color="warning"
-                    onClick={() => {
-                        props.setCanvasOpen(true)
-                    }}>
-                        Sign
-                    </Button>
+                  
                     <Button color="success"
                     onClick={() => {
                         SaveHandler(props)
@@ -72,6 +149,21 @@ const NewHistoryModal = (props) => {
                     </Button>
                 </ModalFooter>
             </Modal>
+            {isPdfOpen ? <PdfDoc 
+            isPdfOpen={isPdfOpen}
+            setIsPdfOpen={setIsPdfOpen}
+            url={url}
+            text={text}
+            doctor={User.name}
+            patient={patient.label}
+            refD={refD}
+            /> : null}
+            {isCanvasOpen ? <SignaturePad 
+            isCanvasOpen={isCanvasOpen} 
+            setIsCanvasOpen={setIsCanvasOpen}
+             url={url} 
+             setUrl={setUrl}
+             /> : null}
         </div>
     )
 }

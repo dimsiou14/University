@@ -161,7 +161,7 @@ const HistoryModal = (props) => {
         </div>
       </ModalHeader>
       <ModalBody>
-        <Card>
+        <Card style={{width:"100%"}}>
           <CardBody>
             <div className="d-flex justify-content-center align-items-center">
               <Col>
