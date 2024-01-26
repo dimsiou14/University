@@ -23,17 +23,27 @@ const NewHistoryModal = (props) => {
     const SaveHandler = (props) => {
 
         let id = 0
-        html2canvas(refD.current, {letterRendering: 1, allowTaint: true, useCORS: true}).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
+       // html2canvas(refD.current, {letterRendering: 1, allowTaint: true, useCORS: true}).then((canvas) => {
+           // const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF();
             const img = url
-            pdf.addImage(imgData, "JPEG", 0, 0)
+            pdf.text(`Doctor`, 0, 10)
+            pdf.text(`${User.name}`, 0, 20)
+
+            pdf.text(`Patient`, 0, 40)
+            pdf.text(`${patient.label}`, 0, 50)
+
+            pdf.text(`Perscription`, 0, 70)
+            pdf.text(`${text}`, 0, 80)
+
+            //pdf.addImage(imgData, "JPEG", 0, 0)
             pdf.text("Signature", 180, 150)
+
             pdf.addImage(img, "JPEG", 150, 151, 50, 40)
             id = pdf.getFileId()
             pdf.save(`perscription${id}`)
         
-          })
+         // })
 
         
         const newHistory = {
@@ -60,11 +70,14 @@ const NewHistoryModal = (props) => {
         }).then((res) => {
             const response = res[0]
             toast.success("Saved successfully !")
+            props.FetchData()
+            props.setIsOpen(false)
         }).catch((e) => {
             toast.error("Error at saving new history...")
+            props.setIsOpen(false)
         })
       
-        props.setIsOpen(false)
+        
     }
 
     return (

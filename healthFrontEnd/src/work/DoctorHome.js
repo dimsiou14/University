@@ -1,24 +1,42 @@
 import { useEffect, useLayoutEffect, useState } from "react"
 import DataTable from "react-data-table-component"
 import { useDispatch, useSelector } from "react-redux"
-import { Button, Col, Navbar } from "reactstrap"
+import { Button, Col, Navbar, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, ButtonGroup } from "reactstrap"
 import toast from 'react-hot-toast'
-import { Plus } from "react-feather"
+import { Plus, User, Power } from "react-feather"
 import "./DoctorHome.css"
 import NewHistoryModal from "./NewHistoryModal"
 import { optionActions } from "./redux/options"
 import { userActions } from "./redux/user"
 import HistoryModal from "./HistoryModal"
+import { useNavigate, redirect } from "react-router"
 
+const TableDoctorStyles = {
+
+    headRow: {
+        style: {
+          background:'blue',
+          borderRadius:5,
+          color:'white'
+        }
+    }
+}
 
 const DoctorHome = () => {
 
-    const User = useSelector(state => state.user.user)
+    const UserInfo = useSelector(state => state.user.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [data, setData] = useState([])
     const [hover, setHover] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [isPrifileCardOpen, setIsProfileCardOpen] = useState()
+    const [selectedUser, setSelectedUser] = useState()
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+
+    const toggle = () => {
+        setDropdownOpen(!dropdownOpen)
+    }
 
     const FetchData = () => {
         const isUserLoggedIn = localStorage.getItem('user')
@@ -82,10 +100,11 @@ const DoctorHome = () => {
             }
         },
         {
-            name:'HealthCard',
+            name:'History',
             cell:(row) => {
                 return (
                     <Button onClick={() => {
+                        setSelectedUser(row.history)
                         setIsProfileCardOpen(true)
                     }}>
                         Show
@@ -110,7 +129,7 @@ const DoctorHome = () => {
 
 return (
     <div style={{width:'100vw', height:'100vh'}}>
-        <Navbar style={{width:'98vw', marginLeft:'1vw', background:'blue', borderRadius:10, display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <Navbar style={{width:'98%', marginLeft:'1%', background:'blue', borderRadius:5, display:'flex', justifyContent:'center', alignItems:'center'}}>
         <Col sm={11} md={11} lg={11} style={{display:'flex', justifyContent:'start', alignItems:'center'}}>
         <span style={{color:'white'}}>
             e-Health
@@ -118,9 +137,16 @@ return (
         </Col>
      
         <Col sm={1} md={1} lg={1} style={{display:'flex', justifyContent:'end', alignItems:'center'}}>
-        <span style={{color:'white'}}>
-            {User.name}
-        </span>
+     
+        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+        <DropdownToggle style={{background:'blue', color:'white', borderColor:'blue'}}>{UserInfo.name}  &nbsp; <User /></DropdownToggle>
+        <DropdownMenu >
+          <DropdownItem onClick={() => {
+            localStorage.clear()
+            navigate(`/`)
+          }}><span> Logout  <Power size={16}/></span></DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
         </Col>
         </Navbar>
         <div style={{
@@ -128,13 +154,21 @@ return (
             alignItems:'center',
             minHeight:'85vh',
             maxHeight:'86vh',
-            overflow:'auto'
+            overflow:'auto',
+            width:'98%',
+            marginLeft:'1%',
+            marginRight:'1%',
+            marginTop:'20px'
         }}>
         <DataTable
         columns={TableColumns}
         data={data}
+        highlightOnHover
+        customStyles={TableDoctorStyles}
+        fixedHeader
+        fixedHeaderScrollHeight="550px"
         />
-        <div style={{width:'98vw', marginLeft:'1vw', display:'flex', justifyContent:'end', alignItems:'center'}}>       
+        <div style={{width:'98%', marginLeft:'1%', marginRight:'1%', marginTop:'20px',  display:'flex', justifyContent:'end', alignItems:'center'}}>       
        <Button 
        color={hover ? "warning" : "secondary"} 
        style={{width:50, height:50, borderRadius:50}}
@@ -149,8 +183,8 @@ return (
         <Plus size='1.2rem' />
        </Button>
        </div>
-       {isOpen ? <NewHistoryModal isOpen={isOpen} setIsOpen={setIsOpen}/> : null}
-       <HistoryModal isOpenHistory={isPrifileCardOpen} setIsOpenHistory={setIsProfileCardOpen}/>
+       {isOpen ? <NewHistoryModal isOpen={isOpen} setIsOpen={setIsOpen} FetchData={FetchData} /> : null}
+       <HistoryModal isOpenHistory={isPrifileCardOpen} setIsOpenHistory={setIsProfileCardOpen} data={selectedUser}/>
         </div>
     </div>
 )

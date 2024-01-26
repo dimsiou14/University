@@ -132,7 +132,7 @@ namespace myApi.Controllers
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine(ex);
+                    System.Console.WriteLine(ex);
                 return StatusCode(500);
             }
 

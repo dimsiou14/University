@@ -21,5 +21,7 @@ namespace myApi.Models
 
         public bool HasOTP { get; set; }
 
+        public List<HistoryModel> History { get; set; }
+
     }
 }

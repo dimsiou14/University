@@ -6,6 +6,7 @@ namespace myApi.Models
         public int HistoryId { get; set; }
 
         public int UserId { get; set; }
+        public string UserName { get; set; }
 
         public int DoctorId { get; set; }
 

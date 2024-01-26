@@ -1,17 +1,24 @@
-import { Button, Input, Label, Row, UncontrolledTooltip, Form } from 'reactstrap'
+import { Button, Input, Label, Row, UncontrolledTooltip, Form, Navbar, DropdownItem, Dropdown, DropdownToggle, DropdownMenu, Col } from 'reactstrap'
 import './Profile.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useLayoutEffect } from 'react'
 import HistoryModal from './HistoryModal'
-import { Save, Settings } from 'react-feather'
+import { Power, Save, Settings, User } from 'react-feather'
 import toast from 'react-hot-toast'
 import { userActions } from './redux/user'
+import { useNavigate } from 'react-router'
 
 const Profile = () => {
-    const User = useSelector(state => state.user.user)
+    const UserInfo = useSelector(state => state.user.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [isEdit, setIsEdit] = useState(false)
     const [isOpenModalHistory, setIsOpenModalHistory] = useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+
+    const toggle = () => {
+        setDropdownOpen(!dropdownOpen)
+    }
 
     const HistoryHandler = () => {
       setIsOpenModalHistory(true)
@@ -39,7 +46,7 @@ const Profile = () => {
             final.push(postVariables[7])
             final.push(postVariables[8])
             final.push(postVariables[2])
-            final.push(User.id.toString())
+            final.push(UserInfo.id.toString())
 
             const requestOptions  = {
                 method: 'POST',
@@ -65,42 +72,67 @@ const Profile = () => {
         } 
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const isUserLoggedIn = localStorage.getItem('user')
         if (isUserLoggedIn) {
             const userData = JSON.parse(isUserLoggedIn)
             dispatch(userActions.SetUser(userData))
+            
         }
     }, [])
     return (
-        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <div style={{width:'100vw', height:'100vh'}}>
+            <Navbar style={{width:'98%', marginLeft:'1%', background:'blue', borderRadius:5, display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <Col sm={11} md={11} lg={11} style={{display:'flex', justifyContent:'start', alignItems:'center'}}>
+        <span style={{color:'white'}}>
+            e-Health
+        </span>
+        </Col>
+     
+        <Col sm={1} md={1} lg={1} style={{display:'flex', justifyContent:'end', alignItems:'center'}}>
+     
+        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+        <DropdownToggle style={{background:'blue', color:'white', borderColor:'blue'}}>{UserInfo.name}  &nbsp; <User /></DropdownToggle>
+        <DropdownMenu >
+          <DropdownItem onClick={() => {
+            localStorage.clear()
+            navigate(`/`)
+          }}><span> Logout  <Power size={16}/></span></DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+        </Col>
+        </Navbar>
+        <div style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100%'}}>
         <div className="card">
             <div className="display-picture">
                 <img src='https://png.pngtree.com/png-vector/20190629/ourlarge/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_1527664.jpg' alt='display'></img>
-                <><Settings 
-                id='ed'
-                style={{marginLeft:'300px', marginTop:'30px'}}
-                onClick={() => {
-                    setIsEdit(true)
-                }}
-                />
-                <UncontrolledTooltip 
-                target={"ed"}>
-                    Edit
-                </UncontrolledTooltip>
-                </>
-                 <Button type='submit' form='sb' style={{marginTop:'30px', padding:0}}>
+                <div style={{display:'flex', justifyContent:'end', alignItems:'center'}}>
+                <Button   style={{marginLeft:'0px', marginTop:'0px', padding:0, background:'transparent', borderColor:'transparent', color:'black'}}>
+                    <Settings 
+                    id='ed'
+                  
+                    onClick={() => {
+                        setIsEdit(true)
+                    }}
+                    />
+                    <UncontrolledTooltip 
+                    target={"ed"}>
+                        Edit
+                    </UncontrolledTooltip>
+                </Button>
+                 <Button type='submit' form='sb' style={{marginTop:'0px', padding:0, background:'transparent', borderColor:'transparent', color:'black'}}>
                     <Save 
-                id='sav'
-   
-                style={{marginLeft:'0px', marginTop:'0px'}}
-                
-                />
-                <UncontrolledTooltip 
-                target={"sav"}>
-                    Save
-                </UncontrolledTooltip>
+                    id='sav'
+    
+                    style={{marginLeft:'0px', marginTop:'0px'}}
+                    
+                    />
+                    <UncontrolledTooltip 
+                    target={"sav"}>
+                        Save
+                    </UncontrolledTooltip>
                </Button>
+               </div>
             </div>
          
             <div className="banner">
@@ -115,7 +147,7 @@ const Profile = () => {
                 <Input 
                 type='text' 
                 style={{width:'200px', marginLeft:'50px'}}
-                defaultValue={User.name}
+                defaultValue={UserInfo.name}
                 disabled={!isEdit}
                 />
                 </div>
@@ -124,7 +156,7 @@ const Profile = () => {
                 <Input 
                 type='text' 
                 style={{width:'200px', marginLeft:'50px'}}
-                defaultValue={User.password}
+                defaultValue={UserInfo.password}
                 disabled={!isEdit} 
                 />
                 </div>
@@ -133,7 +165,7 @@ const Profile = () => {
                 <Input 
                 type='text' 
                 style={{width:'200px', marginLeft:'50px'}}
-                defaultValue={User.type === 0 ? "Patient" : "Doctor"}
+                defaultValue={UserInfo.type === 0 ? "Patient" : "Doctor"}
                 disabled={true}/>
                 </div>
                 <div style={{display:'flex', justifyContent:'start', justifyItems:'start', flexDirection:'row', marginTop:'10px '}}>
@@ -141,7 +173,7 @@ const Profile = () => {
                 <Input
                  type='text' 
                  style={{width:'200px', marginLeft:'50px'}}
-                 defaultValue={User.firstname}
+                 defaultValue={UserInfo.firstname}
                 disabled={!isEdit}
                  />
                 </div>
@@ -150,7 +182,7 @@ const Profile = () => {
                 <Input 
                 type='text' 
                 style={{width:'200px', marginLeft:'50px'}}
-                defaultValue={User.lastname}
+                defaultValue={UserInfo.lastname}
                 disabled={!isEdit}/>
                 </div>
                 <div style={{display:'flex', justifyContent:'start', justifyItems:'start', flexDirection:'row', marginTop:'10px '}}>
@@ -158,7 +190,7 @@ const Profile = () => {
                 <Input 
                 type='text'
                 style={{width:'200px', marginLeft:'50px'}}
-                defaultValue={User.email}
+                defaultValue={UserInfo.email}
                 disabled={!isEdit}/>
                 </div>
                 <div style={{display:'flex', justifyContent:'start', justifyItems:'start', flexDirection:'row', marginTop:'10px '}}>
@@ -166,7 +198,7 @@ const Profile = () => {
                 <Input 
                 type='text'
                  style={{width:'200px', marginLeft:'50px'}}
-                 defaultValue={User.phoneNumber}
+                 defaultValue={UserInfo.phoneNumber}
                 disabled={!isEdit}
                  />
                 </div>
@@ -175,7 +207,7 @@ const Profile = () => {
                 <Input 
                 type='text' 
                 style={{width:'200px', marginLeft:'50px'}}
-                defaultValue={User.afm}
+                defaultValue={UserInfo.afm}
                 disabled={!isEdit}
                 />
                 </div>
@@ -184,7 +216,7 @@ const Profile = () => {
                 <Input 
                 type='checkbox' 
                 style={{ marginLeft:'50px'}}
-                defaultChecked={User.hasOTP}
+                defaultChecked={UserInfo.hasOTP}
                 disabled={!isEdit}
                 />
                 </div>
@@ -198,8 +230,9 @@ const Profile = () => {
           
                 </Form>
             </div>
+            </div>
             
-            <HistoryModal isOpenHistory={isOpenModalHistory} setIsOpenHistory={setIsOpenModalHistory}/>
+            <HistoryModal isOpenHistory={isOpenModalHistory} setIsOpenHistory={setIsOpenModalHistory} data={UserInfo.history}/>
         </div>
         
         </div>

@@ -1,6 +1,6 @@
 export const SortFunctionUserName = (rowA, rowB) => {
-    const a = rowA.Username.toString()
-    const b = rowB.Username.toString()
+    const a = rowA.username.toString()
+    const b = rowB.username.toString()
 
     if (a > b) {
         return 1
@@ -12,8 +12,8 @@ export const SortFunctionUserName = (rowA, rowB) => {
 }
 
 export const SortFunctionDoctorName = (rowA, rowB) => {
-    const a = rowA.DoctorName.toString()
-    const b = rowB.DoctorName.toString()
+    const a = rowA.doctorName.toString()
+    const b = rowB.doctorName.toString()
 
     if (a > b) {
         return 1
@@ -25,8 +25,8 @@ export const SortFunctionDoctorName = (rowA, rowB) => {
 }
 
 export const SortFunctionDateTime = (rowA, rowB) => {
-    const a = new Date(rowA.DateTime).getTime()
-    const b = new Date(rowB.DateTime).getTime()
+    const a = new Date(rowA.recorded).getTime()
+    const b = new Date(rowB.recorded).getTime()
 
     if (a > b) {
         return 1
@@ -38,8 +38,8 @@ export const SortFunctionDateTime = (rowA, rowB) => {
 }
 
 export const SortFunctionID = (rowA, rowB) => {
-    const a = new Date(rowA.Id).getTime()
-    const b = new Date(rowB.Id).getTime()
+    const a = new Date(rowA.historyId).getTime()
+    const b = new Date(rowB.historyId).getTime()
 
     if (a > b) {
         return 1

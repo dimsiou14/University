@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardBody,
   Col,
@@ -13,37 +14,21 @@ import { Book, Search } from "react-feather"
 import DataTable from "react-data-table-component"
 import { useState } from "react"
 import { SortFunctionDateTime, SortFunctionDoctorName, SortFunctionID, SortFunctionUserName } from "./Functions/SortFunctions"
+import { useAsyncError } from "react-router"
+import FileViewer from "./FileViewer"
 
-const dColumns = [
-  {
-    name: "Id",
-    cell: (data) => data.Id,
-    sortable: true,
-    sortFunction:SortFunctionID
-  },
-  {
-    name: "UserName",
-    cell: (data) => data.Username,
-    sortable: true,
-    sortFunction: SortFunctionUserName
-  },
-  {
-    name: "DoctorName",
-    cell: (data) => data.DoctorName,
-    sortable: true,
-    sortFunction:SortFunctionDoctorName
-  },
-  {
-    name: "DateTime",
-    cell: (data) => data.DateTime,
-    sortable: true,
-    sortFunction:SortFunctionDateTime
-  },
-  {
-    name: "Image",
-    cell: (data) => data.Image
-  },
-]
+
+
+const historyTableStyles = {
+  headRow: {
+      style: {
+        background:'purple',
+        borderRadius:5,
+        color:'white'
+      }
+  }
+
+}
 
 const HistoryModal = (props) => {
 
@@ -51,12 +36,52 @@ const HistoryModal = (props) => {
   const setIsOpenCardHistory = props.setIsOpenHistory
   const [searchbar, setSearchbar] = useState("")
   const [filteredData, setFilteredData] = useState([])
+  const [isFileOpen, setIsFileOpen] = useState(false)
+
+  const dColumns = [
+    {
+      name: "Id",
+      cell: (data) => data.historyId,
+      sortable: true,
+      sortFunction:SortFunctionID
+    },
+    {
+      name: "Patient",
+      cell: (data) => data.userName,
+      sortable: true,
+      sortFunction: SortFunctionUserName
+    },
+    {
+      name: "Doctor",
+      cell: (data) => data.doctorName,
+      sortable: true,
+      sortFunction:SortFunctionDoctorName
+    },
+    {
+      name: "Recorded",
+      cell: (data) => data.recorded,
+      sortable: true,
+      sortFunction:SortFunctionDateTime
+    },
+    {
+      name: "Perscription",
+      cell: (data) => {
+        return (
+          <Button onClick={() => {
+            setIsFileOpen(true)
+          }}>
+            View
+          </Button>
+        )
+      }
+    },
+  ]
 
   const dataToRender = () => {
     if (searchbar.length) {
         return filteredData
     } else {
-        return dData
+        return props.data
     }
   }
 
@@ -65,21 +90,21 @@ const HistoryModal = (props) => {
     const searchText = e.target.value
     setSearchbar(searchText)
 
-    const updatedData = dData.filter((item) => {
+    const updatedData = props.data.filter((item) => {
 
         const startsWith = (
-            item.Id.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
-            item.Username.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
-            item.DoctorName.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
-            item.DateTime.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
-            item.Image.toString().toLowerCase().startsWith(searchText.toString().toLowerCase())
+            item.historyId.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
+            item.userName.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
+            item.doctorName.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
+            item.recorded.toString().toLowerCase().startsWith(searchText.toString().toLowerCase()) ||
+            item.imageSrc.toString().toLowerCase().startsWith(searchText.toString().toLowerCase())
         )
         const includes = (
-            item.Id.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
-            item.Username.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
-            item.DoctorName.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
-            item.DateTime.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
-            item.Image.toString().toLowerCase().includes(searchText.toString().toLowerCase())
+            item.historyId.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
+            item.userName.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
+            item.doctorName.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
+            item.recorded.toString().toLowerCase().includes(searchText.toString().toLowerCase()) ||
+            item.imageSrc.toString().toLowerCase().includes(searchText.toString().toLowerCase())
         )
       
         if (startsWith) {
@@ -91,46 +116,8 @@ const HistoryModal = (props) => {
     setFilteredData(updatedData)
   }
 
-  const dData = [
-    {
-      Id: 1,
-      UserId: "1",
-      Username: "Dimitris",
-      DoctorId: "10",
-      DoctorName: "Xaris",
-      DateTime: "10/10/22",
-      Image: "1.png",
-    },
-    {
-      Id: 2,
-      UserId: "1",
-      Username: "Kostas",
-      DoctorId: "11",
-      DoctorName: "John",
-      DateTime: "11/12/22",
-      Image: "2.png",
-    },
-    {
-      Id: 3,
-      UserId: "2",
-      Username: "Ele",
-      DoctorId: "10",
-      DoctorName: "Xaris",
-      DateTime: "3/2/22",
-      Image: "3.png",
-    },
-    {
-      Id: 4,
-      UserId: "2",
-      Username: "Prokopis",
-      DoctorId: "11",
-      DoctorName: "Paris",
-      DateTime: "10/7/22",
-      Image: "4.png",
-    },
-  ]
-
   return (
+    <>
     <Modal isOpen={isOpenCardHistory} centered size="lg">
       <ModalHeader
         toggle={() => {
@@ -161,7 +148,7 @@ const HistoryModal = (props) => {
         </div>
       </ModalHeader>
       <ModalBody>
-        <Card style={{width:"100%"}}>
+        <Card style={{width:"100%", height:'400px'}}>
           <CardBody>
             <div className="d-flex justify-content-center align-items-center">
               <Col>
@@ -173,16 +160,24 @@ const HistoryModal = (props) => {
                     <Input type="text" placeholder="" value={searchbar} onChange={searchbarHandler}/>
                   </InputGroup>
                 </Col>
+                <div className="d-flex justify-content-center align-items-center" style={{marginTop:'20px'}}>
                 <DataTable 
                 columns={dColumns} 
                 data={dataToRender()} 
+                customStyles={historyTableStyles}
+                highlightOnHover
+                fixedHeader
+      fixedHeaderScrollHeight="300px"
                 />
+                </div>
               </Col>
             </div>
           </CardBody>
         </Card>
       </ModalBody>
     </Modal>
+    <FileViewer isFileOpen={isFileOpen} setIsFileOpen={setIsFileOpen}/>
+    </>
   )
 }
 

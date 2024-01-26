@@ -50,7 +50,7 @@ namespace myApi.Repository
 
         public async Task<List<UserModel>> GetUserInfo(int UserID)
         {
-            var info = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
+            List<UserModel> infos = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -61,15 +61,31 @@ namespace myApi.Repository
                 AFM = i.AFM,
                 PhoneNumber = i.PhoneNumber,
                 Email = i.Email,
-                HasOTP = i.HasOTP
+                HasOTP = i.HasOTP,
+
             }).ToListAsync();
 
-            return info;
+            foreach (UserModel info in infos)
+            {
+                info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryModel
+                {
+                    HistoryId = k.HistoryId,
+                    UserId = k.UserId,
+                    UserName = info.LastName + " " + info.FirstName,
+                    DoctorId = k.DoctorId,
+                    DoctorName = k.DoctorName,
+                    Recorded = k.Recorded,
+                    ImageSrc = k.ImageSrc
+                }).ToListAsync();
+            }
+
+            return infos;
         }
 
         public async Task<List<UserModel>> GetDoctorUsers(int DoctorID)
         {
-            var userIDs = await _context.HistoryInfo.Where(i => i.DoctorId == DoctorID).Select(i => i.UserId).ToListAsync();
+            var doctorHistory = await _context.HistoryInfo.Where(i => i.DoctorId == DoctorID).ToListAsync();
+            var userIDs = doctorHistory.Select(i => i.UserId).Distinct().ToList();
 
             var doctorUsers = await _context.UserInfo.Where(i => userIDs.Contains(i.Id)).Select(i => new UserModel()
             {
@@ -84,6 +100,20 @@ namespace myApi.Repository
                 Email = i.Email,
                 HasOTP = i.HasOTP
             }).ToListAsync();
+
+            foreach (var doctorUser in doctorUsers)
+            {
+                doctorUser.History = doctorHistory.Where(i => i.UserId == doctorUser.Id).Select(i => new HistoryModel
+                {
+                    HistoryId = i.HistoryId,
+                    UserId = i.UserId,
+                    UserName = doctorUser.LastName + " " + doctorUser.FirstName,
+                    DoctorId = i.DoctorId,
+                    DoctorName = i.DoctorName,
+                    Recorded = i.Recorded,
+                    ImageSrc = i.ImageSrc
+                }).ToList();
+            }
 
             return doctorUsers;
         }
@@ -165,7 +195,7 @@ namespace myApi.Repository
 
         public async Task <UserModel> AuthenticateUser(LoginObject userData)
         {
-            var user = await _context.UserInfo.Where(i => i.UserName == userData.Name && i.UserPassword == userData.Password).Select(i => new UserModel
+            UserModel user = await _context.UserInfo.Where(i => i.UserName == userData.Name && i.UserPassword == userData.Password).Select(i => new UserModel
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -179,6 +209,21 @@ namespace myApi.Repository
                 HasOTP = i.HasOTP
 
             }).FirstOrDefaultAsync();
+
+            if (user != null && user.Type == 0)
+            {
+                user.History = _context.HistoryInfo.Where(i => i.UserId == user.Id).Select(i => new HistoryModel
+                {
+                    HistoryId = i.HistoryId,
+                    UserId = i.UserId,
+                    UserName = user.LastName + " " + user.FirstName,
+                    DoctorId = i.DoctorId,
+                    DoctorName = i.DoctorName,
+                    Recorded = i.Recorded,
+                    ImageSrc = i.ImageSrc
+                }).ToList();
+            }
+              
 
             return user;
         }

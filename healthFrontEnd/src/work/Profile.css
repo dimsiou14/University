@@ -1,10 +1,11 @@
 .card {
     display: grid;
-    grid-template-rows: 6rem 3rem 3rem 1fr;
+    grid-template-rows: 2rem 3rem 3rem 1fr;
     grid-template-columns: 1fr;
     width: 500px;
-    height: 90vh;
+    height: 80vh;
     margin-top: 5vh;
+    background: white;
 }
 
 .banner {
@@ -35,4 +36,5 @@ object-fit:cover;
     grid-row: 4/5;
     grid-column: 1/-1;
     overflow-y: auto;
+
 }

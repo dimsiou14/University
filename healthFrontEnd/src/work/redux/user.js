@@ -12,7 +12,8 @@ const initialStateUser = {
         hasOTP:false,
         phoneNumber:'',
         firstname:'',
-        lastname:''
+        lastname:'',
+        history:[]
     }
 }
 
@@ -31,6 +32,7 @@ const userSlice = createSlice({
             state.user.phoneNumber = action.payload.phoneNumber
             state.user.firstname = action.payload.firstName
             state.user.lastname = action.payload.lastName
+            state.user.history = action.payload.history
         },
         ResetUser(state) {
             state.user.name = initialStateUser.user.name
@@ -43,6 +45,7 @@ const userSlice = createSlice({
             state.user.phoneNumber = initialStateUser.user.phoneNumber
             state.user.firstname = initialStateUser.firstname
             state.user.lastname = initialStateUser.lastname
+            state.user.history = initialStateUser.history
         }
     }
 })

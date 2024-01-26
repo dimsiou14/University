@@ -147,7 +147,7 @@ const Login = () => {
             // backgroundImage:<img src={imgBack} />
           }}
         >
-          <Nav tabs fill>
+          <Nav tabs fill style={{height:'45px'}}>
             <NavItem>
               <NavLink
                 active={activeTab === 1}
@@ -162,7 +162,7 @@ const Login = () => {
                         borderLeft: "none",
                         borderRight: "none",
                         borderBottom: "5px solid",
-                        borderColor: "#7270EA",
+                        borderColor: "#7270EA"
                       }
                     : {}
                 }
@@ -260,8 +260,8 @@ const Login = () => {
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tabId={2}>
-              <Row md={2}>
+            <TabPane tabId={2} style={{maxHeight:'500px'}}>
+              <Row md={2} >
                 <Col md={5}>
                   <div
                     className="d-flex justify-content-center align-items-center"
@@ -270,10 +270,10 @@ const Login = () => {
                     <LogoSiou />
                   </div>
                 </Col>
-                <Col md={7}>
-                  <div className="d-flex justify-content-center align-items-center">
+                <Col md={7} style={{maxHeight:'500px'}}>
+                  <div className="d-flex justify-content-center align-items-center" style={{overflowY:'auto', maxHeight:'500px'}}>
                     <Form style={{ width: "70%" }} onSubmit={SignUpHandler}>
-                      <Row style={{ width: "100%", marginTop: "40px" }}>
+                      <Row style={{ width: "100%", marginTop: "80px" }}>
                         <Col md={2}>
                           <Label
                             style={{
