@@ -67,11 +67,12 @@ const HistoryModal = (props) => {
       name: "Perscription",
       cell: (data) => {
         return (
-          <Button onClick={() => {
-            setIsFileOpen(true)
-          }}>
-            View
-          </Button>
+          // <Button onClick={() => {
+          //   setIsFileOpen(true)
+          // }}>
+          //   View
+          // </Button>
+          <a href={`https://localhost:7044/myApi/viewFile?imageSrc=${data.imageSrc}`} target="_blank">View</a>
         )
       }
     },

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import ReactSignatureCanvas from "react-signature-canvas"
 import { Button, Modal, ModalBody } from "reactstrap"
 
@@ -15,6 +15,14 @@ const SignaturePad = (props) => {
         props.setUrl(signData.getTrimmedCanvas().toDataURL(`sign${new Date()}`))
         props.setIsCanvasOpen(false)
     }
+
+    useLayoutEffect(() => {
+        if (signData !== undefined) {
+            signData.clear()
+            props.setUrl('')
+        }
+      
+    }, [])
   
 
     return(

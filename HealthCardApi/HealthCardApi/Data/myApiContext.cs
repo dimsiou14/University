@@ -19,7 +19,7 @@ namespace myApi.Data
         public DbSet<User> UserInfo { get; set; }
 
         public DbSet<History> HistoryInfo { get; set; }
-        public DbSet<OTPMapping> OTPMappings { get; set; }
+        public DbSet<OTP> OTPMapping { get; set; }
 
     }
 }

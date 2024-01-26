@@ -13,7 +13,7 @@ namespace myApi.Repository
     {
         Task<List<UserModel>> GetAllUsers();
 
-        Task<List<UserModel>> GetUserInfo(int UserID);
+        Task<UserModel> GetUserInfo(int UserID);
 
         Task<List<UserModel>> GetDoctorUsers(int DoctorID);
 
@@ -21,8 +21,9 @@ namespace myApi.Repository
 
         Task<UserModel> SaveUser(List<string> userData);
         Task<UserModel> AuthenticateUser(LoginObject userData);
-        Task<bool> SendOTP(string emailRecipient);
+        Task<bool> SendOTP(int userId);
         bool AuthenticateOTP(int userId, string OTPcode);
         Task<HistoryModel> AddHistory(HistoryObject data);
+        Task<bool> CreateOTP(int userId);
     }
 }

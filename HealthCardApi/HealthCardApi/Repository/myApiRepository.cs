@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Net;
 using static System.Net.Mime.MediaTypeNames;
 using NLog;
+using HealthCardApi.Data;
 
 namespace myApi.Repository
 {
@@ -48,9 +49,9 @@ namespace myApi.Repository
             return users;
         }
 
-        public async Task<List<UserModel>> GetUserInfo(int UserID)
+        public async Task<UserModel> GetUserInfo(int UserID)
         {
-            List<UserModel> infos = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
+            UserModel info = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -63,23 +64,22 @@ namespace myApi.Repository
                 Email = i.Email,
                 HasOTP = i.HasOTP,
 
+            }).FirstOrDefaultAsync();
+
+
+            info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryModel
+            {
+                HistoryId = k.HistoryId,
+                UserId = k.UserId,
+                UserName = info.LastName + " " + info.FirstName,
+                DoctorId = k.DoctorId,
+                DoctorName = k.DoctorName,
+                Recorded = k.Recorded,
+                ImageSrc = k.ImageSrc
             }).ToListAsync();
 
-            foreach (UserModel info in infos)
-            {
-                info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryModel
-                {
-                    HistoryId = k.HistoryId,
-                    UserId = k.UserId,
-                    UserName = info.LastName + " " + info.FirstName,
-                    DoctorId = k.DoctorId,
-                    DoctorName = k.DoctorName,
-                    Recorded = k.Recorded,
-                    ImageSrc = k.ImageSrc
-                }).ToListAsync();
-            }
 
-            return infos;
+            return info;
         }
 
         public async Task<List<UserModel>> GetDoctorUsers(int DoctorID)
@@ -228,11 +228,10 @@ namespace myApi.Repository
             return user;
         }
 
-        public async Task <bool> SendOTP (string emailRecipient)
+        public async Task <bool> SendOTP (int userId)
         {
             bool isSend = false;
-            Random random = new Random();
-            long OTPCode = random.Next(10000, 99999);
+            
             /*
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse("siountrisd@gmail.com"));
@@ -252,12 +251,16 @@ namespace myApi.Repository
             // send email
             try
             {
+                string recip =  _context.UserInfo.Where(u => u.Id == userId).Select(u => u.Email).FirstOrDefault();
+                string OTPCode = _context.OTPMapping.Where(u => u.UserId == userId).Select(u => u.OTPCode).FirstOrDefault();
+               
                 MailMessage msg = new MailMessage();
                 msg.Subject = "e-health: OTP Code";
                 msg.Body = string.Format("OTP Code: {0}", OTPCode);
                 msg.From = new MailAddress("dimitris-147-@hotmail.com"); 
                 List<string> recipients = new List<string>();
-                recipients.Add("siountrisd@gmail.com");
+                recipients.Add(recip);
+                //recipients.Add("siountrisd@gmail.com");
                 foreach(string recipient in recipients)
                 {
                     msg.To.Add(recipient);
@@ -293,7 +296,7 @@ namespace myApi.Repository
 
         public bool AuthenticateOTP(int userId, string OTPcode)
         {
-            var isValid = _context.OTPMappings.Any(i => i.UserId == userId && i.OTPCode == OTPcode);
+            var isValid = _context.OTPMapping.Any(i => i.UserId == userId && i.OTPCode == OTPcode);
 
             return isValid;
         }
@@ -324,6 +327,41 @@ namespace myApi.Repository
             }).FirstOrDefaultAsync();
 
             return history;
+        }
+
+        public async Task<bool> CreateOTP(int userId)
+        {
+            bool created = false;
+            try
+            {
+                Random random = new Random();
+                long OTPCode = random.Next(10000, 99999);
+
+                OTP item = new OTP
+                {
+                    OTPCode = OTPCode.ToString(),
+                    UserId = userId
+                };
+
+                //1. Remove previous
+                var previous = _context.OTPMapping.Where(o => o.UserId == userId).ToList();
+                foreach(var p in previous)
+                {
+                    _context.OTPMapping.Remove(p);
+                }
+                //2. Create new 
+                _context.OTPMapping.Add(item);
+                _context.SaveChanges();
+
+                created = true;
+                return created;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                return created;
+            }
+            
         }
     }
 }

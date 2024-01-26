@@ -140,7 +140,7 @@ namespace myApi.Controllers
 
         [Route("myApi/authOTP")]
         [HttpPost]
-        public IActionResult AuthenticateUser([FromBody] AuthOTPItem item)
+        public async Task<IActionResult> AuthenticateUser([FromBody] AuthOTPItem item)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace myApi.Controllers
 
                 if (isValid)
                 {
-                    var user = _myApiRepository.GetUserInfo(item.Id);
+                    var user = await _myApiRepository.GetUserInfo(item.Id);
                     if (user != null)
                     {
                         return Ok(user);
@@ -165,6 +165,27 @@ namespace myApi.Controllers
                 }
 
 
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+                return StatusCode(500);
+            }
+
+        }
+
+        [Route("myApi/otp/create")]
+        [HttpPost]
+        public async Task<IActionResult> CreateOTP([FromBody] AuthOTPItem item)
+        {
+            try
+            {
+
+                await _myApiRepository.CreateOTP(item.Id);
+                await _myApiRepository.SendOTP(item.Id);
+
+                
+                 return Ok("ok");
             }
             catch (Exception ex)
             {
@@ -191,6 +212,21 @@ namespace myApi.Controllers
                 return StatusCode(500);
             }
 
+        }
+
+        [Route("myApi/viewFile")]
+        public async Task<IActionResult> ViewFile([FromQuery] string imageSrc)
+        {
+            try
+            {
+                return File(new FileStream(@imageSrc, FileMode.Open, FileAccess.Read), "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+                return StatusCode(500);
+            }
+       
         }
     }
 }

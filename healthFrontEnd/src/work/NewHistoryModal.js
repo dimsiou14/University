@@ -21,7 +21,15 @@ const NewHistoryModal = (props) => {
     const refD = useRef(null)
 
     const SaveHandler = (props) => {
-
+        if (User === undefined || User === null || !User.name.length) {
+            toast.error("You have to fill Doctor field")
+        } else if (Object.keys(patient).length === 0) {
+            toast.error("You have to fill Patient field")
+        } else if (!text.length) {
+            toast.error("You have to fill the text of the perscription")
+        } else if (url === undefined) {
+            toast.error("You have to sign the perscription")
+        } else {
         let id = 0
        // html2canvas(refD.current, {letterRendering: 1, allowTaint: true, useCORS: true}).then((canvas) => {
            // const imgData = canvas.toDataURL("image/png");
@@ -52,7 +60,7 @@ const NewHistoryModal = (props) => {
             DoctorId : User.id,
             DoctorName : User.name,
             Recorded : new Date(),
-            ImageSrc : `C:\Users\dim\Downloads\perscription${id}`
+            ImageSrc : `C:/Users/dim/Downloads/perscription${id}.pdf`
         }
 
         const requestOptions = {
@@ -77,7 +85,7 @@ const NewHistoryModal = (props) => {
             props.setIsOpen(false)
         })
       
-        
+    }
     }
 
     return (

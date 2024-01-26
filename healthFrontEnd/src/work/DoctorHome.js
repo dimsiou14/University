@@ -15,7 +15,7 @@ const TableDoctorStyles = {
 
     headRow: {
         style: {
-          background:'blue',
+          background:'purple',
           borderRadius:5,
           color:'white'
         }
@@ -129,7 +129,7 @@ const DoctorHome = () => {
 
 return (
     <div style={{width:'100vw', height:'100vh'}}>
-        <Navbar style={{width:'98%', marginLeft:'1%', background:'blue', borderRadius:5, display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <Navbar style={{width:'98%', marginLeft:'1%', background:'purple', borderRadius:5, display:'flex', justifyContent:'center', alignItems:'center'}}>
         <Col sm={11} md={11} lg={11} style={{display:'flex', justifyContent:'start', alignItems:'center'}}>
         <span style={{color:'white'}}>
             e-Health
@@ -139,7 +139,7 @@ return (
         <Col sm={1} md={1} lg={1} style={{display:'flex', justifyContent:'end', alignItems:'center'}}>
      
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-        <DropdownToggle style={{background:'blue', color:'white', borderColor:'blue'}}>{UserInfo.name}  &nbsp; <User /></DropdownToggle>
+        <DropdownToggle style={{background:'purple', color:'white', borderColor:'purple'}}>{UserInfo.name}  &nbsp; <User /></DropdownToggle>
         <DropdownMenu >
           <DropdownItem onClick={() => {
             localStorage.clear()

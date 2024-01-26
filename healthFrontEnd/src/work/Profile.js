@@ -82,7 +82,7 @@ const Profile = () => {
     }, [])
     return (
         <div style={{width:'100vw', height:'100vh'}}>
-            <Navbar style={{width:'98%', marginLeft:'1%', background:'blue', borderRadius:5, display:'flex', justifyContent:'center', alignItems:'center'}}>
+            <Navbar style={{width:'98%', marginLeft:'1%', background:'purple', borderRadius:5, display:'flex', justifyContent:'center', alignItems:'center'}}>
         <Col sm={11} md={11} lg={11} style={{display:'flex', justifyContent:'start', alignItems:'center'}}>
         <span style={{color:'white'}}>
             e-Health
@@ -92,7 +92,7 @@ const Profile = () => {
         <Col sm={1} md={1} lg={1} style={{display:'flex', justifyContent:'end', alignItems:'center'}}>
      
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-        <DropdownToggle style={{background:'blue', color:'white', borderColor:'blue'}}>{UserInfo.name}  &nbsp; <User /></DropdownToggle>
+        <DropdownToggle style={{background:'purple', color:'white', borderColor:'purple'}}>{UserInfo.name}  &nbsp; <User /></DropdownToggle>
         <DropdownMenu >
           <DropdownItem onClick={() => {
             localStorage.clear()
@@ -136,7 +136,7 @@ const Profile = () => {
             </div>
          
             <div className="banner">
-                <img src='http://www.pixelstalk.net/wp-content/uploads/2016/06/Light-Blue-HD-Backgrounds-Free-Download.jpg' alt='banner'></img>
+                <img src='https://png.pngtree.com/back_origin_pic/04/10/06/9fe7faf4c574e8a762130d49df15b300.jpg' alt='banner'></img>
             </div>
 
             <div className="content">
