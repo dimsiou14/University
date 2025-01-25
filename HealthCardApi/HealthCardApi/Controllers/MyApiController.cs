@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using myApi.Models;
 using myApi.Repository;
-using System.Text.Json;
-using System.Diagnostics;
-using System.Net;
 
 namespace myApi.Controllers
 {
@@ -44,7 +40,7 @@ namespace myApi.Controllers
         {
             try
             {
-      
+
                 var info = await _myApiRepository.GetUserInfo(UserID);
 
                 return Ok(info);
@@ -60,7 +56,7 @@ namespace myApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDoctorUsers([FromQuery] int DoctorID)
         {
-           
+
             try
             {
 
@@ -81,7 +77,7 @@ namespace myApi.Controllers
         {
             try
             {
-                var history = _myApiRepository.GetHistory(UserID);
+                var history = await _myApiRepository.GetHistory(UserID);
 
                 return Ok(history);
             }
@@ -90,15 +86,15 @@ namespace myApi.Controllers
                 System.Console.WriteLine(ex);
                 return StatusCode(500);
             }
-            
+
         }
 
         [Route("myApi/newUser")]
         [HttpPost]
-        public async Task <IActionResult> SaveUser([FromBody] List<string> userData)
+        public async Task<IActionResult> SaveUser([FromBody] List<string> userData)
         {
             try
-            { 
+            {
                 var user = await _myApiRepository.SaveUser(userData);
 
                 return Ok(user);
@@ -128,11 +124,11 @@ namespace myApi.Controllers
                     return StatusCode(500);
                 }
 
-              
+
             }
             catch (Exception ex)
             {
-                    System.Console.WriteLine(ex);
+                System.Console.WriteLine(ex);
                 return StatusCode(500);
             }
 
@@ -144,6 +140,8 @@ namespace myApi.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(item.Code))
+                    return StatusCode(500);
 
                 bool isValid = _myApiRepository.AuthenticateOTP(item.Id, item.Code);
 
@@ -176,16 +174,16 @@ namespace myApi.Controllers
 
         [Route("myApi/otp/create")]
         [HttpPost]
-        public async Task<IActionResult> CreateOTP([FromBody] AuthOTPItem item)
+        public IActionResult CreateOTP([FromBody] AuthOTPItem item)
         {
             try
             {
 
-                await _myApiRepository.CreateOTP(item.Id);
-                await _myApiRepository.SendOTP(item.Id);
+                _myApiRepository.CreateOTP(item.Id);
+                _myApiRepository.SendOTP(item.Id);
 
-                
-                 return Ok("ok");
+
+                return Ok("ok");
             }
             catch (Exception ex)
             {
@@ -215,7 +213,7 @@ namespace myApi.Controllers
         }
 
         [Route("myApi/viewFile")]
-        public async Task<IActionResult> ViewFile([FromQuery] string imageSrc)
+        public IActionResult ViewFile([FromQuery] string imageSrc)
         {
             try
             {
@@ -226,7 +224,7 @@ namespace myApi.Controllers
                 System.Console.WriteLine(ex);
                 return StatusCode(500);
             }
-       
+
         }
     }
 }

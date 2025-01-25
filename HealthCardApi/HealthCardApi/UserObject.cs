@@ -1,5 +1,3 @@
-using System.Diagnostics.Contracts;
-
 namespace myApi
 {
     public class UserItem
@@ -8,15 +6,15 @@ namespace myApi
 
         public int Type { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        public string AFM { get; set; }
+        public string? AFM { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
     }
 
@@ -26,22 +24,22 @@ namespace myApi
 
         public UserType Type { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        public string AFM { get; set; }
+        public string? AFM { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
     }
 
     public class LoginObject
     {
-        public string Name { get; set; }
-        public string Password { get; set; }
+        public string? Name { get; set; }
+        public string? Password { get; set; }
     }
 
     public enum UserType
@@ -58,16 +56,16 @@ namespace myApi
 
         public int DoctorId { get; set; }
 
-        public string DoctorName { get; set; }
+        public string? DoctorName { get; set; }
 
         public DateTime Recorded { get; set; }
 
-        public string ImageSrc { get; set; }
+        public string? ImageSrc { get; set; }
     }
 
     public class AuthOTPItem
     {
         public int Id { get; set; }
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 }

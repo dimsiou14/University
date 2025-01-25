@@ -1,11 +1,11 @@
+using Microsoft.EntityFrameworkCore;
 using myApi.Data;
 using myApi.Repository;
-using Microsoft.EntityFrameworkCore;
-using NLog.Web;
-using System;
 using NLog.Extensions.Logging;
+using NLog.Web;
 
-var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger(); // .NET 6 
+//var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings();        //.NET 8
 
 // Add services to the container.
 

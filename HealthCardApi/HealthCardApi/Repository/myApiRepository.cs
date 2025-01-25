@@ -1,21 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using myApi.Models;
-using myApi.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
-using MailKit.Security;
-using MimeKit.Text;
-using MimeKit;
-using System.Security.Cryptography;
-using System.Net;
-using static System.Net.Mime.MediaTypeNames;
-using NLog;
 using HealthCardApi.Data;
+using Microsoft.EntityFrameworkCore;
+using myApi.Data;
+using myApi.Models;
+using NLog;
+using System.Net;
+using System.Net.Mail;
 
 namespace myApi.Repository
 {
@@ -49,9 +38,9 @@ namespace myApi.Repository
             return users;
         }
 
-        public async Task<UserModel> GetUserInfo(int UserID)
+        public async Task<UserModel?> GetUserInfo(int UserID)
         {
-            UserModel info = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
+            UserModel? info = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -66,17 +55,20 @@ namespace myApi.Repository
 
             }).FirstOrDefaultAsync();
 
-
-            info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryModel
+            if (info != null)
             {
-                HistoryId = k.HistoryId,
-                UserId = k.UserId,
-                UserName = info.LastName + " " + info.FirstName,
-                DoctorId = k.DoctorId,
-                DoctorName = k.DoctorName,
-                Recorded = k.Recorded,
-                ImageSrc = k.ImageSrc
-            }).ToListAsync();
+                info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryModel
+                {
+                    HistoryId = k.HistoryId,
+                    UserId = k.UserId,
+                    UserName = info.LastName + " " + info.FirstName,
+                    DoctorId = k.DoctorId,
+                    DoctorName = k.DoctorName,
+                    Recorded = k.Recorded,
+                    ImageSrc = k.ImageSrc
+                }).ToListAsync();
+            }
+           
 
 
             return info;
@@ -133,9 +125,9 @@ namespace myApi.Repository
             return history;
         }
 
-        public async Task<UserModel> SaveUser(List<string> userData)
+        public async Task<UserModel?> SaveUser(List<string> userData)
         {
-            User newUser = new User();
+            User? newUser = new User();
             if (userData.Count > 9)
             {
                 int userId = Convert.ToInt32(userData[9]);
@@ -173,7 +165,8 @@ namespace myApi.Repository
                 await _context.SaveChangesAsync();
             }
 
-            int userID = newUser != null ? newUser.Id : 0;
+            int userID = newUser?.Id ?? 0;
+
             var user = await _context.UserInfo.Where(i => i.Id == userID).Select(i => new UserModel
             {
                 Id = i.Id,
@@ -193,9 +186,9 @@ namespace myApi.Repository
 
         }
 
-        public async Task <UserModel> AuthenticateUser(LoginObject userData)
+        public async Task <UserModel?> AuthenticateUser(LoginObject userData)
         {
-            UserModel user = await _context.UserInfo.Where(i => i.UserName == userData.Name && i.UserPassword == userData.Password).Select(i => new UserModel
+            UserModel? user = await _context.UserInfo.Where(i => i.UserName == userData.Name && i.UserPassword == userData.Password).Select(i => new UserModel
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -210,7 +203,7 @@ namespace myApi.Repository
 
             }).FirstOrDefaultAsync();
 
-            if (user != null && user.Type == 0)
+            if (user?.Type == 0)
             {
                 user.History = _context.HistoryInfo.Where(i => i.UserId == user.Id).Select(i => new HistoryModel
                 {
@@ -228,32 +221,17 @@ namespace myApi.Repository
             return user;
         }
 
-        public async Task <bool> SendOTP (int userId)
-        {
-            bool isSend = false;
-            
-            /*
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("siountrisd@gmail.com"));
-            email.To.Add(MailboxAddress.Parse("dimitris-147-@hotmail.com"));
-            email.Subject = "e-health: OTP Code";
-            string text = string.Format("OTP Code: {0}", OTPCode);
-            email.Body = new TextPart(TextFormat.Plain) { Text = text };
-
-            MailMessage msg = new MailMessage();
-            msg.Body = text;
-            msg.From = new MailAddress("siountrisd@gmail.com");
-            MailAddressCollection recipients = new MailAddressCollection();
-            recipients.Add(new MailAddress("dimitris-147-@hotmail.com"));
-            msg.To = recipients;
-            */
-         
+        public bool SendOTP (int userId)
+        { 
             // send email
             try
             {
-                string recip =  _context.UserInfo.Where(u => u.Id == userId).Select(u => u.Email).FirstOrDefault();
-                string OTPCode = _context.OTPMapping.Where(u => u.UserId == userId).Select(u => u.OTPCode).FirstOrDefault();
-               
+                string? recip =  _context.UserInfo.Where(u => u.Id == userId).Select(u => u.Email).FirstOrDefault();
+                string? OTPCode = _context.OTPMapping.Where(u => u.UserId == userId).Select(u => u.OTPCode).FirstOrDefault();
+
+                if (string.IsNullOrWhiteSpace(recip) || string.IsNullOrWhiteSpace(OTPCode))
+                    return false;
+
                 MailMessage msg = new MailMessage();
                 msg.Subject = "e-health: OTP Code";
                 msg.Body = string.Format("OTP Code: {0}", OTPCode);
@@ -276,20 +254,13 @@ namespace myApi.Repository
                 smtpClient.EnableSsl = true;
 
                 smtpClient.Send(msg);
-                
-              /*  smtp.Authenticate("[USERNAME]", "[PASSWORD]");
-                smtp.Send(msg);
-                smtp.Dispose();
-                */
-
-                isSend = true;
-                return isSend;
+               
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.Debug("Error:{0}", ex);
-                isSend = false;
-                return isSend;
+                return false;
             }
 
         }
@@ -301,7 +272,7 @@ namespace myApi.Repository
             return isValid;
         }
 
-        public async Task<HistoryModel> AddHistory(HistoryObject data)
+        public async Task<HistoryModel?> AddHistory(HistoryObject data)
         {
             History newHistory = new History();
 
@@ -316,7 +287,7 @@ namespace myApi.Repository
 
             int id = newHistory.HistoryId;
 
-            HistoryModel history = await _context.HistoryInfo.Where(h => h.HistoryId == id).Select(h => new HistoryModel
+            HistoryModel? history = await _context.HistoryInfo.Where(h => h.HistoryId == id).Select(h => new HistoryModel
             {
                 HistoryId = id,
                 DoctorId = h.DoctorId,
@@ -329,9 +300,8 @@ namespace myApi.Repository
             return history;
         }
 
-        public async Task<bool> CreateOTP(int userId)
+        public bool CreateOTP(int userId)
         {
-            bool created = false;
             try
             {
                 Random random = new Random();
@@ -353,13 +323,12 @@ namespace myApi.Repository
                 _context.OTPMapping.Add(item);
                 _context.SaveChanges();
 
-                created = true;
-                return created;
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.ToString());
-                return created;
+                return false;
             }
             
         }

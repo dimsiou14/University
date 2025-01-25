@@ -1,0 +1,296 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\University\\University\\HealthCardApi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\data\\myapicontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\data\\myapicontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\data\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\data\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\repository\\myapirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\repository\\myapirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\controllers\\myapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\controllers\\myapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\userobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\userobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\repository\\imyapirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\repository\\imyapirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\data\\otp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\data\\otp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\data\\history.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\data\\history.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\models\\historymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\models\\historymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|d:\\university\\university\\healthcardapi\\healthcardapi\\healthcardapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D939A6EF-8566-429E-99A4-D0847A10A16B}|HealthCardApi\\HealthCardApi.csproj|solutionrelative:healthcardapi\\healthcardapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "myApiRepository.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Repository\\myApiRepository.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Repository\\myApiRepository.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Repository\\myApiRepository.cs",
+              "RelativeToolTip": "HealthCardApi\\Repository\\myApiRepository.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAYwBcAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "HistoryModel.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Models\\HistoryModel.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Models\\HistoryModel.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Models\\HistoryModel.cs",
+              "RelativeToolTip": "HealthCardApi\\Models\\HistoryModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserModel.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Models\\UserModel.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Models\\UserModel.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Models\\UserModel.cs",
+              "RelativeToolTip": "HealthCardApi\\Models\\UserModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserObject.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\UserObject.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\UserObject.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\UserObject.cs",
+              "RelativeToolTip": "HealthCardApi\\UserObject.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\appsettings.json",
+              "RelativeDocumentMoniker": "HealthCardApi\\appsettings.json",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\appsettings.json",
+              "RelativeToolTip": "HealthCardApi\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-25T16:03:47.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "HealthCardApi\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Properties\\launchSettings.json",
+              "RelativeToolTip": "HealthCardApi\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-25T15:54:06.015Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MyApiController.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Controllers\\MyApiController.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Controllers\\MyApiController.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Controllers\\MyApiController.cs",
+              "RelativeToolTip": "HealthCardApi\\Controllers\\MyApiController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "myApiContext.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\myApiContext.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Data\\myApiContext.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\myApiContext.cs",
+              "RelativeToolTip": "HealthCardApi\\Data\\myApiContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAYAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T16:36:01.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\User.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Data\\User.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\User.cs",
+              "RelativeToolTip": "HealthCardApi\\Data\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAMAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Program.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Program.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Program.cs",
+              "RelativeToolTip": "HealthCardApi\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAABZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:59:24.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\WeatherForecast.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\WeatherForecast.cs",
+              "RelativeToolTip": "HealthCardApi\\WeatherForecast.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T16:36:38.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "OTP.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\OTP.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Data\\OTP.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\OTP.cs",
+              "RelativeToolTip": "HealthCardApi\\Data\\OTP.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T16:07:58.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ImyApiRepository.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Repository\\ImyApiRepository.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Repository\\ImyApiRepository.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Repository\\ImyApiRepository.cs",
+              "RelativeToolTip": "HealthCardApi\\Repository\\ImyApiRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T16:12:43.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "HealthCardApi\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T16:36:20.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "History.cs",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\History.cs",
+              "RelativeDocumentMoniker": "HealthCardApi\\Data\\History.cs",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\Data\\History.cs",
+              "RelativeToolTip": "HealthCardApi\\Data\\History.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T15:53:58.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "HealthCardApi.csproj",
+              "DocumentMoniker": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
+              "RelativeDocumentMoniker": "HealthCardApi\\HealthCardApi.csproj",
+              "ToolTip": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
+              "RelativeToolTip": "HealthCardApi\\HealthCardApi.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-01-25T16:09:13.749Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
