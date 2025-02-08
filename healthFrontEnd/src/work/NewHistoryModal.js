@@ -7,7 +7,6 @@ import SignaturePad from "./SignaturePad"
 import Select from "react-select"
 import PdfDoc from "./PdfDoc"
 import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
 
 const NewHistoryModal = (props) => {
 
@@ -30,9 +29,9 @@ const NewHistoryModal = (props) => {
         } else if (url === undefined) {
             toast.error("You have to sign the perscription")
         } else {
-        let id = 0
-       // html2canvas(refD.current, {letterRendering: 1, allowTaint: true, useCORS: true}).then((canvas) => {
-           // const imgData = canvas.toDataURL("image/png");
+            let id = 0
+            // html2canvas(refD.current, {letterRendering: 1, allowTaint: true, useCORS: true}).then((canvas) => {
+            // const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF();
             const img = url
             pdf.text(`Doctor`, 0, 10)
@@ -50,42 +49,42 @@ const NewHistoryModal = (props) => {
             pdf.addImage(img, "JPEG", 150, 151, 50, 40)
             id = pdf.getFileId()
             pdf.save(`perscription${id}`)
-        
-         // })
 
-        
-        const newHistory = {
-            HisotryId:0,
-            UserId : parseInt(patient.value),
-            DoctorId : User.id,
-            DoctorName : User.name,
-            Recorded : new Date(),
-            ImageSrc : `C:/Users/dim/Downloads/perscription${id}.pdf`
+            // })
+
+
+            const newHistory = {
+                HisotryId: 0,
+                UserId: parseInt(patient.value),
+                DoctorId: User.id,
+                DoctorName: User.name,
+                Recorded: new Date(),
+                ImageSrc: `C:/Users/dim/Downloads/perscription${id}.pdf`
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newHistory)
+            }
+
+            Promise.all([fetch(`/myApi/history/add`, requestOptions)]).then((res) => {
+                if (res[0].ok) {
+                    return Promise.all([res[0].json()])
+                }
+                return Promise.reject(res)
+
+            }).then((res) => {
+                const response = res[0]
+                toast.success("Saved successfully !")
+                props.FetchData()
+                props.setIsOpen(false)
+            }).catch((e) => {
+                toast.error("Error at saving new history...")
+                props.setIsOpen(false)
+            })
+
         }
-
-        const requestOptions = {
-            method:'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:JSON.stringify(newHistory)
-        }
-
-        Promise.all([fetch(`/myApi/history/add`, requestOptions)]).then((res) => {
-            if (res[0].ok) {
-                return Promise.all([res[0].json()])
-              }
-              return Promise.reject(res)
-
-        }).then((res) => {
-            const response = res[0]
-            toast.success("Saved successfully !")
-            props.FetchData()
-            props.setIsOpen(false)
-        }).catch((e) => {
-            toast.error("Error at saving new history...")
-            props.setIsOpen(false)
-        })
-      
-    }
     }
 
     return (
@@ -95,96 +94,96 @@ const NewHistoryModal = (props) => {
                     New Perscription
                 </ModalHeader>
                 <ModalBody>
-                    <div style={{display:'flex', justifyContent:'start', alignItems:'center'}}>
-                        <Label style={{width:'100px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
+                        <Label style={{ width: '100px' }}>
                             Doctor
                         </Label>
-                        <Input type="text"                   
-                    defaultValue={User.name}
-                    disabled={true}
-                    style={{width:'200px'}}
-                    />
+                        <Input type="text"
+                            defaultValue={User.name}
+                            disabled={true}
+                            style={{ width: '200px' }}
+                        />
                     </div>
-                    <div style={{display:'flex', justifyContent:'start', alignItems:'center', marginTop:'10px'}}>
-                    <Label style={{width:'100px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', marginTop: '10px' }}>
+                        <Label style={{ width: '100px' }}>
                             Patient
                         </Label>
-                        <div style={{width:'200px'}}>
-                        <Select
-                        options={PatientOptions}
-                        value={patient}
-                        onChange={(option) => {
-                            setPatient(option)
-                        }}
-                        />
+                        <div style={{ width: '200px' }}>
+                            <Select
+                                options={PatientOptions}
+                                value={patient}
+                                onChange={(option) => {
+                                    setPatient(option)
+                                }}
+                            />
                         </div>
                     </div>
-                    <div style={{display:'flex', justifyContent:'start', alignItems:'center', marginTop:'10px'}}>
-                    <Label style={{width:'100px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', marginTop: '10px' }}>
+                        <Label style={{ width: '100px' }}>
                             Document
                         </Label>
                         <Input type="textarea" onChange={(e) => {
-                        setText(e.target.value)                          
+                            setText(e.target.value)
                         }}
-                        style={{width:'200px'}}/>
+                            style={{ width: '200px' }} />
                     </div>
-                    <div style={{display:'flex', justifyContent:'start', alignItems:'center', marginTop:'10px'}}>
-                    <Label style={{width:'100px'}}>
+                    <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', marginTop: '10px' }}>
+                        <Label style={{ width: '100px' }}>
                             Signature
                         </Label>
                         <Button color="warning"
-                        style={{width:'200px'}}
-                     
-                    onClick={() => {
-                        setIsCanvasOpen(true)
-                    }}>
-                        Sign 
-                    </Button>
+                            style={{ width: '200px' }}
+
+                            onClick={() => {
+                                setIsCanvasOpen(true)
+                            }}>
+                            Sign
+                        </Button>
                     </div>
-                    
-                    <br/>
-                
+
+                    <br />
+
                     {url !== undefined ? <Button onClick={() => {
                         setIsPdfOpen(true)
                     }}>
                         Preview
                     </Button> : null}
 
-                   
-                   
+
+
                 </ModalBody>
                 <ModalFooter>
                     <Button color="danger"
-                    onClick={() => {
-                    props.setIsOpen(false)
-                    }}
+                        onClick={() => {
+                            props.setIsOpen(false)
+                        }}
                     >
                         Cancel
                     </Button>
-                  
+
                     <Button color="success"
-                    onClick={() => {
-                        SaveHandler(props)
-                    }}>
+                        onClick={() => {
+                            SaveHandler(props)
+                        }}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
-            {isPdfOpen ? <PdfDoc 
-            isPdfOpen={isPdfOpen}
-            setIsPdfOpen={setIsPdfOpen}
-            url={url}
-            text={text}
-            doctor={User.name}
-            patient={patient.label}
-            refD={refD}
+            {isPdfOpen ? <PdfDoc
+                isPdfOpen={isPdfOpen}
+                setIsPdfOpen={setIsPdfOpen}
+                url={url}
+                text={text}
+                doctor={User.name}
+                patient={patient.label}
+                refD={refD}
             /> : null}
-            {isCanvasOpen ? <SignaturePad 
-            isCanvasOpen={isCanvasOpen} 
-            setIsCanvasOpen={setIsCanvasOpen}
-             url={url} 
-             setUrl={setUrl}
-             /> : null}
+            {isCanvasOpen ? <SignaturePad
+                isCanvasOpen={isCanvasOpen}
+                setIsCanvasOpen={setIsCanvasOpen}
+                url={url}
+                setUrl={setUrl}
+            /> : null}
         </div>
     )
 }

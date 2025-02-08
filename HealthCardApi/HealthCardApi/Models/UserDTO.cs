@@ -1,7 +1,7 @@
 namespace myApi.Models
 {
 
-    public class UserModel
+    public class UserDTO
     {
         public int Id { get; set; }
 
@@ -21,7 +21,7 @@ namespace myApi.Models
 
         public bool HasOTP { get; set; }
 
-        public List<HistoryModel> History { get; set; } = new List<HistoryModel>();
+        public List<HistoryDTO> History { get; set; } = new List<HistoryDTO>();
 
     }
 }

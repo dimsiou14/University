@@ -17,7 +17,7 @@ try
     builder.Services.AddMvc();
     builder.Services.AddScoped<ImyApiRepository, myApiRepository>();
     builder.Services.AddDbContext<myApiDbContext>(options =>
-    options.UseSqlServer("Data Source=;Initial Catalog=master;Encrypt=False;Integrated Security=True"));
+    options.UseSqlServer("Data Source=;Initial Catalog=HealthApp;Encrypt=False;Integrated Security=True"));
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

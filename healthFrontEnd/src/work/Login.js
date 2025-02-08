@@ -19,15 +19,11 @@ import {
 import "./Login.css"
 import imgBack from "./b.jpg"
 import CardProfile from "./CardProfile"
-import { useLayoutEffect } from "react"
 import { userActions } from "./redux/user"
 import { useDispatch, useSelector } from "react-redux"
 import toast from 'react-hot-toast'
 import { Navigate } from "react-router"
 import Select from "react-select"
-import imageBack from './loginBack.png'
-
-
 
 const LogoSiou = () => {
   return <span className="textLogo">e-Health</span>
@@ -38,12 +34,12 @@ const BackImage = () => {
 }
 
 const Login = () => {
-  
+
   const [activeTab, setActiveTab] = useState(1)
   const [isOpenCardProfile, setIsOpenCardProfile] = useState(false)
   const [hasLogedIn, setHasLogedIn] = useState(false)
   const [isDoctor, setIsDoctor] = useState(false)
-  const [userType, setUserType] = useState({label:'Patient', value:'0'})
+  const [userType, setUserType] = useState({ label: 'Patient', value: '0' })
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false)
   const dispatch = useDispatch()
   const User = useSelector(state => state.user.user)
@@ -53,11 +49,11 @@ const Login = () => {
     e.preventDefault()
 
     const userData = {
-      Name:e.target[0].value,
-      Password:e.target[1].value
+      Name: e.target[0].value,
+      Password: e.target[1].value
     }
-   
-    const requestOptions  = {
+
+    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
@@ -66,67 +62,69 @@ const Login = () => {
     let userLocal = 0
 
     Promise.all([fetch('/myApi/auth', requestOptions)])
-    .then((res) => {
-      if (res[0].ok) {
-        return Promise.all([res[0].json()])
-      }
-      return Promise.reject(res)
-    }).then((res) => {
-      const responseUser = res[0]
-      userLocal = responseUser.id
-
-      if (!responseUser.hasOTP) {
-
-        dispatch(userActions.SetUser(responseUser))
-        localStorage.setItem('user', JSON.stringify(responseUser))
-        toast.success('Login successfully')
-        setIsOpenCardProfile(true)
-        setHasLogedIn(true)
-        if (responseUser.type === 1) {
-          setIsDoctor(true)
+      .then((res) => {
+        if (res[0].ok) {
+          return Promise.all([res[0].json()])
         }
-      } else {
+        return Promise.reject(res)
+      }).then((res) => {
+        const responseUser = res[0]
+        userLocal = responseUser.id
 
-        dispatch(userActions.SetUser(responseUser))
+        if (!responseUser.hasOTP) {
 
-        const createOtpItem = {
-          Id:userLocal,
-          Code:''
-        }
-        const requestOptions1 = {
-          method:'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:JSON.stringify(createOtpItem)
-        }
-
-        Promise.all([fetch('/myApi/otp/create', requestOptions1)])
-        .then((res) => {
-          if (res[0].ok) {
-            return Promise.all([res[0].text()])
+          dispatch(userActions.SetUser(responseUser))
+          localStorage.setItem('user', JSON.stringify(responseUser))
+          toast.success('Login successfully')
+          setIsOpenCardProfile(true)
+          setHasLogedIn(true)
+          if (responseUser.type === 1) {
+            setIsDoctor(true)
           }
-          return Promise.reject(res)
-        }).then((res) => {
-          const responseCreate = res[0]
-          setIsOtpModalOpen(true)
-         
-        }).catch((e) => {        
-          setIsOpenCardProfile(false)
-          toast.error('Failed to create otp code..!')
-        })
-      }
-     
-    }).catch((e) => {
-     
-      setIsOpenCardProfile(false)
-      toast.error('Failed to auth user..!')
-    })
+        } else {
 
-    
+          dispatch(userActions.SetUser(responseUser))
+
+          const createOtpItem = {
+            Id: userLocal,
+            Code: ''
+          }
+          const requestOptions1 = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(createOtpItem)
+          }
+
+          Promise.all([fetch('/myApi/otp/create', requestOptions1)])
+            .then((res) => {
+              if (res[0].ok) {
+                return Promise.all([res[0].text()])
+              }
+              return Promise.reject(res)
+            }).then((res) => {
+              const responseCreate = res[0]
+              setIsOtpModalOpen(true)
+
+            }).catch((e) => {
+              setIsOpenCardProfile(false)
+              toast.error('Failed to create otp code..!')
+            })
+        }
+
+      }).catch((e) => {
+
+        setIsOpenCardProfile(false)
+        toast.error('Failed to auth user..!')
+      })
+
+
   }
 
   const SignUpHandler = (e) => {
+
     e.preventDefault()
     const postVariables = []
+
     for (let i = 0; i < e.target.length - 1; i++) {
       if (i === 2) {
         continue
@@ -136,35 +134,35 @@ const Login = () => {
       } else if (e.target[i].type === 'checkbox') {
         postVariables.push(e.target[i].type === 'checkbox' ? e.target[i].checked.toString() : e.target[i].value)
       }
-      
+
     }
     postVariables.push(userType.value)
 
     if (postVariables.length >= 9) {
 
-      const requestOptions  = {
+      const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postVariables)
       }
 
       Promise.all([fetch('/myApi/newUser', requestOptions)])
-      .then((res) => {
-        if (res[0].ok) {
-          return Promise.all([res[0].json()])
-        }
-        return Promise.reject(res)
-      }).then((res) => {
-        console.log(res[0])
-        toast.success("New user saved successfully !")
-        setActiveTab(1)
-      }).catch((e) => {
-        console.log("Failed to sign up user..!")
-      })
+        .then((res) => {
+          if (res[0].ok) {
+            return Promise.all([res[0].json()])
+          }
+          return Promise.reject(res)
+        }).then((res) => {
+          console.log(res[0])
+          toast.success("New user saved successfully !")
+          setActiveTab(1)
+        }).catch((e) => {
+          console.log("Failed to sign up user..!")
+        })
     } else {
       toast.error("You have to fill all the fields...")
     }
-    
+
   }
 
   const ValidateOTP = (e) => {
@@ -175,41 +173,41 @@ const Login = () => {
     } else {
 
       const auth = {
-        Id:User.id,
-        Code:code
+        Id: User.id,
+        Code: code
       }
       const requestOptions = {
-        method:'POST',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:JSON.stringify(auth)
+        body: JSON.stringify(auth)
       }
 
       Promise.all([fetch('/myApi/authOTP', requestOptions)])
-      .then((res) => {
-        if (res[0].ok) {
-          return Promise.all([res[0].json()])
-        }
-        return Promise.reject(res)
-      }).then((res) => {
-        const responseUser = res[0]
-        dispatch(userActions.SetUser(responseUser))
-        localStorage.setItem('user', JSON.stringify(responseUser))
-        toast.success('Login successfully')
-        setIsOpenCardProfile(true)
-        setHasLogedIn(true)
-        if (responseUser.type === 1) {
-          setIsDoctor(true)
-        }
-        setIsOtpModalOpen(false)
-        
-      }).catch((e) => {
-        toast.error("Failed to auth with otp code")
-      })
+        .then((res) => {
+          if (res[0].ok) {
+            return Promise.all([res[0].json()])
+          }
+          return Promise.reject(res)
+        }).then((res) => {
+          const responseUser = res[0]
+          dispatch(userActions.SetUser(responseUser))
+          localStorage.setItem('user', JSON.stringify(responseUser))
+          toast.success('Login successfully')
+          setIsOpenCardProfile(true)
+          setHasLogedIn(true)
+          if (responseUser.type === 1) {
+            setIsDoctor(true)
+          }
+          setIsOtpModalOpen(false)
+
+        }).catch((e) => {
+          toast.error("Failed to auth with otp code")
+        })
     }
   }
 
   return (
-    <div style={{ width: "100vw", height: "100vh", background: 'whitesmoke'}}>
+    <div style={{ width: "100vw", height: "100vh", background: 'whitesmoke' }}>
       <div className="d-flex justify-content-center align-items-center">
         <Card
           style={{
@@ -220,8 +218,8 @@ const Login = () => {
             // backgroundImage:<img src={imgBack} />
           }}
         >
-       
-          <Nav tabs fill style={{height:'45px'}}>
+
+          <Nav tabs fill style={{ height: '45px' }}>
             <NavItem>
               <NavLink
                 active={activeTab === 1}
@@ -232,12 +230,12 @@ const Login = () => {
                 style={
                   activeTab === 1
                     ? {
-                        borderTop: "none",
-                        borderLeft: "none",
-                        borderRight: "none",
-                        borderBottom: "5px solid",
-                        borderColor: "#7270EA"
-                      }
+                      borderTop: "none",
+                      borderLeft: "none",
+                      borderRight: "none",
+                      borderBottom: "5px solid",
+                      borderColor: "#7270EA"
+                    }
                     : {}
                 }
               >
@@ -255,12 +253,12 @@ const Login = () => {
                 style={
                   activeTab === 2
                     ? {
-                        borderTop: "none",
-                        borderLeft: "none",
-                        borderRight: "none",
-                        borderBottom: "5px solid",
-                        borderColor: "#7270EA",
-                      }
+                      borderTop: "none",
+                      borderLeft: "none",
+                      borderRight: "none",
+                      borderBottom: "5px solid",
+                      borderColor: "#7270EA",
+                    }
                     : {}
                 }
               >
@@ -334,7 +332,7 @@ const Login = () => {
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tabId={2} style={{maxHeight:'500px'}}>
+            <TabPane tabId={2} style={{ maxHeight: '500px' }}>
               <Row md={2} >
                 <Col md={5}>
                   <div
@@ -344,8 +342,8 @@ const Login = () => {
                     <LogoSiou />
                   </div>
                 </Col>
-                <Col md={7} style={{maxHeight:'500px'}}>
-                  <div className="d-flex justify-content-center align-items-center" style={{overflowY:'auto', maxHeight:'500px'}}>
+                <Col md={7} style={{ maxHeight: '500px' }}>
+                  <div className="d-flex justify-content-center align-items-center" style={{ overflowY: 'auto', maxHeight: '500px' }}>
                     <Form style={{ width: "70%" }} onSubmit={SignUpHandler}>
                       <Row style={{ width: "100%", marginTop: "80px" }}>
                         <Col md={2}>
@@ -399,15 +397,15 @@ const Login = () => {
                           style={{ width: "200px", marginLeft: "100px" }}
                         >
                           <Select
-                          options={[{label:'Patient', value:'0'},
-                          {label:'Doctor', value:'1'}]}
-                          defaultValue={{label:'Patient', value:'0'}}
-                         
-                          onChange={(option) => {
-                            setUserType(option)
-                          }}
+                            options={[{ label: 'Patient', value: '0' },
+                            { label: 'Doctor', value: '1' }]}
+                            defaultValue={{ label: 'Patient', value: '0' }}
+
+                            onChange={(option) => {
+                              setUserType(option)
+                            }}
                           />
-                      
+
                         </Col>
                       </Row>
                       <Row style={{ width: "100%", marginTop: "20px" }}>
@@ -519,7 +517,7 @@ const Login = () => {
                         </Col>
                       </Row>
 
-                     
+
                       <Input
                         type="submit"
                         style={{
@@ -537,27 +535,27 @@ const Login = () => {
             </TabPane>
           </TabContent>
         </Card>
-        <CardProfile 
-        isOpen={isOpenCardProfile}
-        setIsOpen={setIsOpenCardProfile}
+        <CardProfile
+          isOpen={isOpenCardProfile}
+          setIsOpen={setIsOpenCardProfile}
         />
-        {hasLogedIn && isDoctor? <Navigate to="doctorhome" replace={true} /> : hasLogedIn ? <Navigate to="home" replace={true} /> : <></>}
+        {hasLogedIn && isDoctor ? <Navigate to="doctorhome" replace={true} /> : hasLogedIn ? <Navigate to="home" replace={true} /> : <></>}
         <Modal isOpen={isOtpModalOpen}>
           <ModalHeader>
             OTP Authentication
           </ModalHeader>
           <ModalBody >
-           
-              <Form id="otpForm" onSubmit={ValidateOTP}>
-              <div style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+
+            <Form id="otpForm" onSubmit={ValidateOTP}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                 <p>
                   Please fill the following input with the OTP auth code that we sent you in your email.
                 </p>
-                <Input name="otp" type='text' style={{width:'200px'}} placeholder="OTP Code"/>
-                <Input type="submit" form="otpForm" style={{width:'200px', marginTop:'20px', background:'blue', color:'white'}}/>
-                </div>
-              </Form>
-           
+                <Input name="otp" type='text' style={{ width: '200px' }} placeholder="OTP Code" />
+                <Input type="submit" form="otpForm" style={{ width: '200px', marginTop: '20px', background: 'blue', color: 'white' }} />
+              </div>
+            </Form>
+
           </ModalBody>
         </Modal>
       </div>

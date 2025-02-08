@@ -1,7 +1,7 @@
 namespace myApi.Models
 {
 
-    public class HistoryModel
+    public class HistoryDTO
     {
         public int HistoryId { get; set; }
 

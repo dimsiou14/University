@@ -1,4 +1,6 @@
+using HealthCardApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using myApi.Models;
 using myApi.Repository;
 
 namespace myApi.Controllers
@@ -136,7 +138,7 @@ namespace myApi.Controllers
 
         [Route("myApi/authOTP")]
         [HttpPost]
-        public async Task<IActionResult> AuthenticateUser([FromBody] AuthOTPItem item)
+        public async Task<IActionResult> AuthenticateUser([FromBody] OtpDTO item)
         {
             try
             {
@@ -174,7 +176,7 @@ namespace myApi.Controllers
 
         [Route("myApi/otp/create")]
         [HttpPost]
-        public IActionResult CreateOTP([FromBody] AuthOTPItem item)
+        public IActionResult CreateOTP([FromBody] OtpDTO item)
         {
             try
             {
@@ -195,7 +197,7 @@ namespace myApi.Controllers
 
         [Route("myApi/history/add")]
         [HttpPost]
-        public async Task<IActionResult> AddHistory([FromBody] HistoryObject data)
+        public async Task<IActionResult> AddHistory([FromBody] HistoryDTO data)
         {
             try
             {
@@ -213,6 +215,7 @@ namespace myApi.Controllers
         }
 
         [Route("myApi/viewFile")]
+        [HttpGet]
         public IActionResult ViewFile([FromQuery] string imageSrc)
         {
             try

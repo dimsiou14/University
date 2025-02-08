@@ -1,4 +1,5 @@
 using HealthCardApi.Data;
+using HealthCardApi.Models;
 using Microsoft.EntityFrameworkCore;
 using myApi.Data;
 using myApi.Models;
@@ -19,9 +20,9 @@ namespace myApi.Repository
             _context = context;
         }
 
-        public async Task<List<UserModel>> GetAllUsers()
+        public async Task<List<UserDTO>> GetAllUsers()
         {
-            var users = await _context.UserInfo.Select(i => new UserModel()
+            var users = await _context.UserInfo.Select(i => new UserDTO()
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -38,9 +39,9 @@ namespace myApi.Repository
             return users;
         }
 
-        public async Task<UserModel?> GetUserInfo(int UserID)
+        public async Task<UserDTO?> GetUserInfo(int UserID)
         {
-            UserModel? info = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserModel()
+            UserDTO? info = await _context.UserInfo.Where(i => i.Id == UserID).Select(i => new UserDTO()
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -57,7 +58,7 @@ namespace myApi.Repository
 
             if (info != null)
             {
-                info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryModel
+                info.History = await _context.HistoryInfo.Where(k => k.UserId == UserID).Select(k => new HistoryDTO
                 {
                     HistoryId = k.HistoryId,
                     UserId = k.UserId,
@@ -74,12 +75,12 @@ namespace myApi.Repository
             return info;
         }
 
-        public async Task<List<UserModel>> GetDoctorUsers(int DoctorID)
+        public async Task<List<UserDTO>> GetDoctorUsers(int DoctorID)
         {
             var doctorHistory = await _context.HistoryInfo.Where(i => i.DoctorId == DoctorID).ToListAsync();
             var userIDs = doctorHistory.Select(i => i.UserId).Distinct().ToList();
 
-            var doctorUsers = await _context.UserInfo.Where(i => userIDs.Contains(i.Id)).Select(i => new UserModel()
+            var doctorUsers = await _context.UserInfo.Where(i => userIDs.Contains(i.Id)).Select(i => new UserDTO()
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -95,7 +96,7 @@ namespace myApi.Repository
 
             foreach (var doctorUser in doctorUsers)
             {
-                doctorUser.History = doctorHistory.Where(i => i.UserId == doctorUser.Id).Select(i => new HistoryModel
+                doctorUser.History = doctorHistory.Where(i => i.UserId == doctorUser.Id).Select(i => new HistoryDTO
                 {
                     HistoryId = i.HistoryId,
                     UserId = i.UserId,
@@ -110,9 +111,9 @@ namespace myApi.Repository
             return doctorUsers;
         }
 
-        public async Task<List<HistoryModel>> GetHistory(int UserID)
+        public async Task<List<HistoryDTO>> GetHistory(int UserID)
         {
-            var history = await _context.HistoryInfo.Where(i => i.UserId == UserID).Select(i => new HistoryModel()
+            var history = await _context.HistoryInfo.Where(i => i.UserId == UserID).Select(i => new HistoryDTO()
             {
                 HistoryId = i.HistoryId,
                 UserId = i.UserId,
@@ -125,7 +126,7 @@ namespace myApi.Repository
             return history;
         }
 
-        public async Task<UserModel?> SaveUser(List<string> userData)
+        public async Task<UserDTO?> SaveUser(List<string> userData)
         {
             User? newUser = new User();
             if (userData.Count > 9)
@@ -167,7 +168,7 @@ namespace myApi.Repository
 
             int userID = newUser?.Id ?? 0;
 
-            var user = await _context.UserInfo.Where(i => i.Id == userID).Select(i => new UserModel
+            var user = await _context.UserInfo.Where(i => i.Id == userID).Select(i => new UserDTO
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -186,9 +187,9 @@ namespace myApi.Repository
 
         }
 
-        public async Task <UserModel?> AuthenticateUser(LoginObject userData)
+        public async Task <UserDTO?> AuthenticateUser(LoginObject userData)
         {
-            UserModel? user = await _context.UserInfo.Where(i => i.UserName == userData.Name && i.UserPassword == userData.Password).Select(i => new UserModel
+            UserDTO? user = await _context.UserInfo.Where(i => i.UserName == userData.Name && i.UserPassword == userData.Password).Select(i => new UserDTO
             {
                 Id = i.Id,
                 Type = i.UserType,
@@ -205,7 +206,7 @@ namespace myApi.Repository
 
             if (user?.Type == 0)
             {
-                user.History = _context.HistoryInfo.Where(i => i.UserId == user.Id).Select(i => new HistoryModel
+                user.History = _context.HistoryInfo.Where(i => i.UserId == user.Id).Select(i => new HistoryDTO
                 {
                     HistoryId = i.HistoryId,
                     UserId = i.UserId,
@@ -272,7 +273,7 @@ namespace myApi.Repository
             return isValid;
         }
 
-        public async Task<HistoryModel?> AddHistory(HistoryObject data)
+        public async Task<HistoryDTO?> AddHistory(HistoryDTO data)
         {
             History newHistory = new History();
 
@@ -287,7 +288,7 @@ namespace myApi.Repository
 
             int id = newHistory.HistoryId;
 
-            HistoryModel? history = await _context.HistoryInfo.Where(h => h.HistoryId == id).Select(h => new HistoryModel
+            HistoryDTO? history = await _context.HistoryInfo.Where(h => h.HistoryId == id).Select(h => new HistoryDTO
             {
                 HistoryId = id,
                 DoctorId = h.DoctorId,
