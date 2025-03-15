@@ -126,15 +126,12 @@ const Login = () => {
     const postVariables = []
 
     for (let i = 0; i < e.target.length - 1; i++) {
+      console.log(e.target[i].type)
       if (i === 2) {
         continue
       }
-      if (e.target[i].type === 'text' && e.target[i].value.length) {
-        postVariables.push(e.target[i].type === 'checkbox' ? e.target[i].checked.toString() : e.target[i].value)
-      } else if (e.target[i].type === 'checkbox') {
-        postVariables.push(e.target[i].type === 'checkbox' ? e.target[i].checked.toString() : e.target[i].value)
-      }
 
+      postVariables.push(e.target[i].type === 'checkbox' ? e.target[i].checked.toString() : e.target[i].value)
     }
     postVariables.push(userType.value)
 

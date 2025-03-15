@@ -1,6 +1,6 @@
 {
   "name": "health",
-  "proxy": "https://localhost:7044",
+  "proxy": "https://localhost:8081",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -220,6 +220,7 @@ namespace myApi.Controllers
         {
             try
             {
+                return StatusCode(500);
                 return File(new FileStream(@imageSrc, FileMode.Open, FileAccess.Read), "application/pdf");
             }
             catch (Exception ex)

@@ -59,7 +59,7 @@ const NewHistoryModal = (props) => {
                 DoctorId: User.id,
                 DoctorName: User.name,
                 Recorded: new Date(),
-                ImageSrc: `C:/Users/dim/Downloads/perscription${id}.pdf`
+                ImageSrc: `C:/Users/Dimitris/Downloads/perscription${id}.pdf`
             }
 
             const requestOptions = {
