@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0K4l/dL9nNjcKSgf/M+EgHYTPddeOwrglzFdsTovnc31HbPM2rSAY5u1WbFEfe1rOj1/eDw1KhK36gQGQd6RjQ==",
+  "dgSpecHash": "6xt8VAFv4fOLsGM4PvmA1aCujQE+GvAZXXi0oZWzSJ7BbpD7wiUqsVwljoDy943nYuXIKuzia7l+hZCCe/mAjQ==",
   "success": true,
   "projectFilePath": "D:\\University\\University\\HealthCardApi\\HealthCardApi\\HealthCardApi.csproj",
   "expectedPackageFiles": [
@@ -45,6 +45,7 @@
     "C:\\Users\\Dimitris\\.nuget\\packages\\nlog\\5.3.4\\nlog.5.3.4.nupkg.sha512",
     "C:\\Users\\Dimitris\\.nuget\\packages\\nlog.extensions.logging\\5.3.15\\nlog.extensions.logging.5.3.15.nupkg.sha512",
     "C:\\Users\\Dimitris\\.nuget\\packages\\nlog.web.aspnetcore\\5.3.15\\nlog.web.aspnetcore.5.3.15.nupkg.sha512",
+    "C:\\Users\\Dimitris\\.nuget\\packages\\otp.net\\1.4.0\\otp.net.1.4.0.nupkg.sha512",
     "C:\\Users\\Dimitris\\.nuget\\packages\\swashbuckle.aspnetcore\\7.2.0\\swashbuckle.aspnetcore.7.2.0.nupkg.sha512",
     "C:\\Users\\Dimitris\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\7.2.0\\swashbuckle.aspnetcore.swagger.7.2.0.nupkg.sha512",
     "C:\\Users\\Dimitris\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\7.2.0\\swashbuckle.aspnetcore.swaggergen.7.2.0.nupkg.sha512",

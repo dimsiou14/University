@@ -12,6 +12,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.1",
           "NLog": "5.3.4",
           "NLog.Web.AspNetCore": "5.3.15",
+          "Otp.NET": "1.4.0",
           "Swashbuckle.AspNetCore": "7.2.0",
           "log4net": "3.0.3"
         },
@@ -481,6 +482,14 @@
           "lib/net8.0/NLog.Web.AspNetCore.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.3.15.1182"
+          }
+        }
+      },
+      "Otp.NET/1.4.0": {
+        "runtime": {
+          "lib/net8.0/Otp.NET.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
           }
         }
       },
@@ -1052,6 +1061,13 @@
       "sha512": "sha512-Am5ZJ1htYf6K3QJ7stIbKK3CTGw1BOyGtucWxHoDScM/U1w6nE/zmYfZTfj7jRIKuZwbwpBqtRGZJsUcMGUvfA==",
       "path": "nlog.web.aspnetcore/5.3.15",
       "hashPath": "nlog.web.aspnetcore.5.3.15.nupkg.sha512"
+    },
+    "Otp.NET/1.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fk1NKc0lWmlo6LAFYpFJInRgFKt72knRNEvxndDYoQHFwYOPXav+WEUBvQA0k4lxq5xt0SymrZ+oi0F/G40bPQ==",
+      "path": "otp.net/1.4.0",
+      "hashPath": "otp.net.1.4.0.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/7.2.0": {
       "type": "package",

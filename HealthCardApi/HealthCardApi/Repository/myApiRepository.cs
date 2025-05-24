@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using myApi.Data;
 using myApi.Models;
 using NLog;
+using OtpNet;
 using System.Net;
 using System.Net.Mail;
+using static System.Net.WebRequestMethods;
 
 namespace myApi.Repository
 {
@@ -268,6 +270,12 @@ namespace myApi.Repository
 
         public bool AuthenticateOTP(int userId, string OTPcode)
         {
+            byte[] secretKey = Base32Encoding.ToBytes("DimSiou14");
+
+            var totp = new Totp(secretKey);
+
+             totp.VerifyTotp(OTPcode, out _);
+
             var isValid = _context.OTPMapping.Any(i => i.UserId == userId && i.OTPCode == OTPcode);
 
             return isValid;
@@ -305,13 +313,18 @@ namespace myApi.Repository
         {
             try
             {
-                Random random = new Random();
-                long OTPCode = random.Next(10000, 99999);
+                byte[] secretKey = Base32Encoding.ToBytes("DimSiou14");
+
+                // Set the time step to 300 seconds (5 minutes)
+                var totp = new Totp(secretKey, step: 300);
+
+                string OTPCode = totp.ComputeTotp(DateTime.UtcNow);
 
                 OTP item = new OTP
                 {
-                    OTPCode = OTPCode.ToString(),
-                    UserId = userId
+                    OTPCode = OTPCode,
+                    UserId = userId,
+                    CreationDate = DateTime.UtcNow
                 };
 
                 //1. Remove previous
