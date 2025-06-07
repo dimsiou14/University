@@ -13,24 +13,19 @@ import {
   Label,
   Modal,
   ModalHeader,
-  ModalBody,
-  CardTitle
+  ModalBody
 } from "reactstrap"
 import "./Login.css"
-import imgBack from "./b.jpg"
 import CardProfile from "./CardProfile"
 import { userActions } from "./redux/user"
 import { useDispatch, useSelector } from "react-redux"
 import toast from 'react-hot-toast'
 import { Navigate } from "react-router"
 import Select from "react-select"
+import { authActions } from "./redux/auth"
 
 const LogoSiou = () => {
   return <span className="textLogo">e-Health</span>
-}
-
-const BackImage = () => {
-  return <img src={imgBack} alt="bimage" />
 }
 
 const Login = () => {
@@ -43,7 +38,6 @@ const Login = () => {
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false)
   const dispatch = useDispatch()
   const User = useSelector(state => state.user.user)
-
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
@@ -61,6 +55,7 @@ const Login = () => {
 
     let userLocal = 0
 
+    let localToken = ""
     Promise.all([fetch('/myApi/auth', requestOptions)])
       .then((res) => {
         if (res[0].ok) {
@@ -68,7 +63,10 @@ const Login = () => {
         }
         return Promise.reject(res)
       }).then((res) => {
-        const responseUser = res[0]
+        const responseToken = res[0].token
+        dispatch(authActions.setToken(responseToken))
+        localToken = responseToken
+        const responseUser = res[0].user
         userLocal = responseUser.id
 
         if (!responseUser.hasOTP) {
@@ -91,7 +89,7 @@ const Login = () => {
           }
           const requestOptions1 = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Authorization': `Bearer ${localToken}`, 'Content-Type': 'application/json' },
             body: JSON.stringify(createOtpItem)
           }
 
@@ -106,6 +104,7 @@ const Login = () => {
               setIsOtpModalOpen(true)
 
             }).catch((e) => {
+              setIsOtpModalOpen(false)
               setIsOpenCardProfile(false)
               toast.error('Failed to create otp code..!')
             })

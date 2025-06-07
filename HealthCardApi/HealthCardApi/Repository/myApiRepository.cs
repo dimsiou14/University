@@ -313,7 +313,7 @@ namespace myApi.Repository
         {
             try
             {
-                byte[] secretKey = Base32Encoding.ToBytes("DimSiou14");
+                byte[] secretKey = Base32Encoding.ToBytes("DIMSIOU27DIMSIOU27DIMSIOU27DIMSI");
 
                 // Set the time step to 300 seconds (5 minutes)
                 var totp = new Totp(secretKey, step: 300);

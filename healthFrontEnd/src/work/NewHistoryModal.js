@@ -18,6 +18,7 @@ const NewHistoryModal = (props) => {
     const [url, setUrl] = useState()
     const [isPdfOpen, setIsPdfOpen] = useState(false)
     const refD = useRef(null)
+    const token = useSelector(auth => auth.auth.token)
 
     const SaveHandler = (props) => {
         if (User === undefined || User === null || !User.name.length) {
@@ -64,7 +65,7 @@ const NewHistoryModal = (props) => {
 
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(newHistory)
             }
 

@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[4.9.0, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[9.0.1, )"
@@ -72,10 +76,6 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[7.2.0, )"
-            },
-            "log4net": {
-              "target": "Package",
-              "version": "[3.0.3, )"
             }
           },
           "imports": [

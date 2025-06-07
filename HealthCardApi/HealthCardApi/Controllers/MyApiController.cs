@@ -1,4 +1,6 @@
 using HealthCardApi.Models;
+using HealthCardApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using myApi.Models;
 using myApi.Repository;
@@ -10,12 +12,15 @@ namespace myApi.Controllers
     public class MyApiController : ControllerBase
     {
         private readonly ImyApiRepository _myApiRepository;
+        private readonly IJWTService _jetService;
 
-        public MyApiController(ImyApiRepository myApiRepository)
+        public MyApiController(ImyApiRepository myApiRepository, IJWTService jWTService)
         {
             _myApiRepository = myApiRepository;
+            _jetService = jWTService;
         }
 
+        [Authorize]
         [Route("myApi/users")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -36,6 +41,8 @@ namespace myApi.Controllers
             }
         }
 
+
+        [Authorize]
         [Route("myApi/user/info")]
         [HttpGet]
         public async Task<IActionResult> GetUserInfo(int UserID)
@@ -54,6 +61,7 @@ namespace myApi.Controllers
             }
         }
 
+        [Authorize]
         [Route("myApi/doctorusers")]
         [HttpGet]
         public async Task<IActionResult> GetDoctorUsers([FromQuery] int DoctorID)
@@ -73,6 +81,7 @@ namespace myApi.Controllers
             }
         }
 
+        [Authorize]
         [Route("myApi/history")]
         [HttpGet]
         public async Task<IActionResult> GetHistory(int UserID)
@@ -117,9 +126,10 @@ namespace myApi.Controllers
             {
 
                 var user = await _myApiRepository.AuthenticateUser(userData);
+                string token = _jetService.GenerateJwtToken(user);
                 if (user != null)
                 {
-                    return Ok(user);
+                    return Ok(new LoginResponse { User = user, Token = token});
                 }
                 else
                 {
@@ -136,6 +146,7 @@ namespace myApi.Controllers
 
         }
 
+        [Authorize]
         [Route("myApi/authOTP")]
         [HttpPost]
         public async Task<IActionResult> AuthenticateUser([FromBody] OtpDTO item)
@@ -174,6 +185,7 @@ namespace myApi.Controllers
 
         }
 
+        [Authorize]
         [Route("myApi/otp/create")]
         [HttpPost]
         public IActionResult CreateOTP([FromBody] OtpDTO item)
@@ -181,8 +193,15 @@ namespace myApi.Controllers
             try
             {
 
-                _myApiRepository.CreateOTP(item.Id);
-                _myApiRepository.SendOTP(item.Id);
+                bool OTPcreated =  _myApiRepository.CreateOTP(item.Id);
+
+                if (!OTPcreated)
+                    return StatusCode(500);
+
+                bool OTPsent = _myApiRepository.SendOTP(item.Id);
+
+                if (!OTPsent)
+                    return StatusCode(500);
 
 
                 return Ok("ok");
@@ -195,6 +214,7 @@ namespace myApi.Controllers
 
         }
 
+        [Authorize]
         [Route("myApi/history/add")]
         [HttpPost]
         public async Task<IActionResult> AddHistory([FromBody] HistoryDTO data)
@@ -214,6 +234,7 @@ namespace myApi.Controllers
 
         }
 
+        [Authorize]
         [Route("myApi/viewFile")]
         [HttpGet]
         public IActionResult ViewFile([FromQuery] string imageSrc)

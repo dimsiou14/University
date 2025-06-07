@@ -34,6 +34,7 @@ const DoctorHome = () => {
     const [selectedUser, setSelectedUser] = useState()
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [errorPage, setErrorPage] = useState(false)
+    const Token = useSelector(auth => auth.auth.token)
 
     const toggle = () => {
         setDropdownOpen(!dropdownOpen)
@@ -48,7 +49,12 @@ const DoctorHome = () => {
         }
         else {
             const userData = JSON.parse(isUserLoggedIn)
-            Promise.all([fetch(`/myApi/doctorusers?DoctorID=${userData.id}`)]).then((res => {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${Token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify("")
+            }
+            Promise.all([fetch(`/myApi/doctorusers?DoctorID=${userData.id}`, requestOptions)]).then((res => {
                 if (res[0].ok) {
                     return Promise.all([res[0].json()])
                 }
@@ -56,7 +62,7 @@ const DoctorHome = () => {
             })).then((res) => {
                 const response = res[0]
                 setData(response)
-                Promise.all([fetch(`/myApi/users`)]).then((res => {
+                Promise.all([fetch(`/myApi/users`), requestOptions]).then((res => {
                     if (res[0].ok) {
                         return Promise.all([res[0].json()])
                     }

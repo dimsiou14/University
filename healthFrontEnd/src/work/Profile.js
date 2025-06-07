@@ -34,24 +34,24 @@ const Profile = () => {
             postVariables.push(e.target[i].type === 'checkbox' ? e.target[i].checked.toString() : e.target[i].value)
         }
 
-        const final = []
+        const objToSave = []
         if (postVariables.length >= 9) {
 
-            final.push(postVariables[0])
-            final.push(postVariables[1])
-            final.push(postVariables[3])
-            final.push(postVariables[4])
-            final.push(postVariables[5])
-            final.push(postVariables[6])
-            final.push(postVariables[7])
-            final.push(postVariables[8])
-            final.push(postVariables[2])
-            final.push(UserInfo.id.toString())
+            objToSave.push(postVariables[0])
+            objToSave.push(postVariables[1])
+            objToSave.push(postVariables[3])
+            objToSave.push(postVariables[4])
+            objToSave.push(postVariables[5])
+            objToSave.push(postVariables[6])
+            objToSave.push(postVariables[7])
+            objToSave.push(postVariables[8])
+            objToSave.push(postVariables[2])
+            objToSave.push(UserInfo.id.toString())
 
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(final)
+                body: JSON.stringify(objToSave)
             }
 
             Promise.all([fetch('/myApi/newUser', requestOptions)])
