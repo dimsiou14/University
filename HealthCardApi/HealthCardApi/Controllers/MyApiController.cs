@@ -20,7 +20,7 @@ namespace myApi.Controllers
             _jetService = jWTService;
         }
 
-        [Authorize]
+        //[Authorize]
         [Route("myApi/users")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -28,8 +28,6 @@ namespace myApi.Controllers
             try
             {
                 var users = await _myApiRepository.GetAllUsers();
-
-                //await _myApiRepository.SendOTP("test");
 
                 return Ok(users);
             }
@@ -69,10 +67,29 @@ namespace myApi.Controllers
 
             try
             {
+                Result<List<UserDTO>> result = new Result<List<UserDTO>>()
+                {
+                    Success = false,
+                    Message = "",
+                    Items = null
+                };
 
                 var doctorusers = await _myApiRepository.GetDoctorUsers(DoctorID);
 
-                return Ok(doctorusers);
+                if (doctorusers.Count > 0)
+                {
+
+                    result.Success = true;
+                    result.Items = doctorusers;
+                } 
+                else
+                {
+                    result.Message = "No History";
+                    result.Items = new List<UserDTO>();
+                    
+                }
+                return Ok(result);
+
             }
             catch (Exception ex)
             {
@@ -124,19 +141,28 @@ namespace myApi.Controllers
         {
             try
             {
+                Result<LoginResponse> result = new Result<LoginResponse>()
+                {
+                    Success = false,
+                    Message = "",
+                    Items = null
+                };
 
                 var user = await _myApiRepository.AuthenticateUser(userData);
-                string token = _jetService.GenerateJwtToken(user);
+
                 if (user != null)
                 {
-                    return Ok(new LoginResponse { User = user, Token = token});
+                    string token = _jetService.GenerateJwtToken(user);
+
+                    result.Success = true;
+                    result.Message = "";
+                    result.Items = new LoginResponse { User = user, Token = token };
+
                 }
                 else
-                {
-                    return StatusCode(500);
-                }
+                    result.Message = "Invalid Credentials..!";
 
-
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -193,7 +219,7 @@ namespace myApi.Controllers
             try
             {
 
-                bool OTPcreated =  _myApiRepository.CreateOTP(item.Id);
+                bool OTPcreated = _myApiRepository.CreateOTP(item.Id);
 
                 if (!OTPcreated)
                     return StatusCode(500);
@@ -214,7 +240,7 @@ namespace myApi.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [Route("myApi/history/add")]
         [HttpPost]
         public async Task<IActionResult> AddHistory([FromBody] HistoryDTO data)
@@ -234,14 +260,13 @@ namespace myApi.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [Route("myApi/viewFile")]
         [HttpGet]
         public IActionResult ViewFile([FromQuery] string imageSrc)
         {
             try
             {
-                return StatusCode(500);
                 return File(new FileStream(@imageSrc, FileMode.Open, FileAccess.Read), "application/pdf");
             }
             catch (Exception ex)

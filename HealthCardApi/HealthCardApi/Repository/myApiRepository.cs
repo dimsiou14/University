@@ -80,6 +80,9 @@ namespace myApi.Repository
         public async Task<List<UserDTO>> GetDoctorUsers(int DoctorID)
         {
             var doctorHistory = await _context.HistoryInfo.Where(i => i.DoctorId == DoctorID).ToListAsync();
+            if (doctorHistory == null)
+                return new List<UserDTO>();
+
             var userIDs = doctorHistory.Select(i => i.UserId).Distinct().ToList();
 
             var doctorUsers = await _context.UserInfo.Where(i => userIDs.Contains(i.Id)).Select(i => new UserDTO()
@@ -270,13 +273,21 @@ namespace myApi.Repository
 
         public bool AuthenticateOTP(int userId, string OTPcode)
         {
-            byte[] secretKey = Base32Encoding.ToBytes("DimSiou14");
+            var existingOTP = _context.OTPMapping.FirstOrDefault(i => i.UserId == userId && i.OTPCode == OTPcode);
+
+            if (existingOTP == null)
+                return false;
+
+            byte[] secretKey = Base32Encoding.ToBytes("DIMSIOU27DIMSIOU27DIMSIOU27DIMSI");
 
             var totp = new Totp(secretKey);
 
-             totp.VerifyTotp(OTPcode, out _);
+            bool isValid = totp.VerifyTotp(OTPcode, out _);
 
-            var isValid = _context.OTPMapping.Any(i => i.UserId == userId && i.OTPCode == OTPcode);
+            if (!isValid)
+            {
+                isValid = existingOTP.CreationDate.Add(new TimeSpan(0, 5, 0)) <= DateTime.Now;
+            }
 
             return isValid;
         }

@@ -38,6 +38,8 @@ const Login = () => {
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false)
   const dispatch = useDispatch()
   const User = useSelector(state => state.user.user)
+  const Token = useSelector(auth => auth.auth.token)
+  const [currentToken, setCurrentToken] = useState("")
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
@@ -63,51 +65,61 @@ const Login = () => {
         }
         return Promise.reject(res)
       }).then((res) => {
-        const responseToken = res[0].token
-        dispatch(authActions.setToken(responseToken))
-        localToken = responseToken
-        const responseUser = res[0].user
-        userLocal = responseUser.id
+        const success = res[0].success
+        const message = res[0].message
+        const items = res[0].items
 
-        if (!responseUser.hasOTP) {
+        if (!success) {
+          toast.error(message)
+        }
+        else {
+          const responseToken = items.token
+          dispatch(authActions.setToken(responseToken))
+          localToken = responseToken
+          setCurrentToken(responseToken)
+          const responseUser = items.user
+          userLocal = responseUser.id
 
-          dispatch(userActions.SetUser(responseUser))
-          localStorage.setItem('user', JSON.stringify(responseUser))
-          toast.success('Login successfully')
-          setIsOpenCardProfile(true)
-          setHasLogedIn(true)
-          if (responseUser.type === 1) {
-            setIsDoctor(true)
+          if (!responseUser.hasOTP) {
+
+            dispatch(userActions.SetUser(responseUser))
+            localStorage.setItem('user', JSON.stringify(responseUser))
+            toast.success('Login successfully')
+            setIsOpenCardProfile(true)
+            setHasLogedIn(true)
+            if (responseUser.type === 1) {
+              setIsDoctor(true)
+            }
+          } else {
+
+            dispatch(userActions.SetUser(responseUser))
+
+            const createOtpItem = {
+              Id: userLocal,
+              Code: ''
+            }
+            const requestOptions1 = {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${localToken}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify(createOtpItem)
+            }
+
+            Promise.all([fetch('/myApi/otp/create', requestOptions1)])
+              .then((res) => {
+                if (res[0].ok) {
+                  return Promise.all([res[0].text()])
+                }
+                return Promise.reject(res)
+              }).then((res) => {
+                const responseCreate = res[0]
+                setIsOtpModalOpen(true)
+
+              }).catch((e) => {
+                setIsOtpModalOpen(false)
+                setIsOpenCardProfile(false)
+                toast.error('Failed to create otp code..!')
+              })
           }
-        } else {
-
-          dispatch(userActions.SetUser(responseUser))
-
-          const createOtpItem = {
-            Id: userLocal,
-            Code: ''
-          }
-          const requestOptions1 = {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${localToken}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify(createOtpItem)
-          }
-
-          Promise.all([fetch('/myApi/otp/create', requestOptions1)])
-            .then((res) => {
-              if (res[0].ok) {
-                return Promise.all([res[0].text()])
-              }
-              return Promise.reject(res)
-            }).then((res) => {
-              const responseCreate = res[0]
-              setIsOtpModalOpen(true)
-
-            }).catch((e) => {
-              setIsOtpModalOpen(false)
-              setIsOpenCardProfile(false)
-              toast.error('Failed to create otp code..!')
-            })
         }
 
       }).catch((e) => {
@@ -174,7 +186,7 @@ const Login = () => {
       }
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Authorization': `Bearer ${currentToken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(auth)
       }
 
@@ -339,7 +351,7 @@ const Login = () => {
                   </div>
                 </Col>
                 <Col md={7} style={{ maxHeight: '500px' }}>
-                  <div className="d-flex justify-content-center align-items-center" style={{ overflowY: 'auto', maxHeight: '500px' }}>
+                  <div className="d-flex justify-content-center align-items-center" style={{ overflowY: 'auto', maxHeight: '650px' }}>
                     <Form style={{ width: "70%" }} onSubmit={SignUpHandler}>
                       <Row style={{ width: "100%", marginTop: "80px" }}>
                         <Col md={2}>
@@ -535,7 +547,7 @@ const Login = () => {
           isOpen={isOpenCardProfile}
           setIsOpen={setIsOpenCardProfile}
         />
-        {hasLogedIn && isDoctor ? <Navigate to="doctorhome" replace={true} /> : hasLogedIn ? <Navigate to="home" replace={true} /> : <></>}
+        {hasLogedIn && isDoctor ? <Navigate to="doctorhome" replace={true} state={{ token: currentToken }} /> : hasLogedIn ? <Navigate to="home" replace={true} /> : <></>}
         <Modal isOpen={isOtpModalOpen}>
           <ModalHeader>
             OTP Authentication

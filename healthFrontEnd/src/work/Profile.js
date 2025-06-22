@@ -154,7 +154,7 @@ const Profile = () => {
                             <div style={{ display: 'flex', justifyContent: 'start', justifyItems: 'start', flexDirection: 'row', marginTop: '10px ' }}>
                                 <Label style={{ width: '100px', marginLeft: '50px' }}>Password </Label>
                                 <Input
-                                    type='text'
+                                    type='password'
                                     style={{ width: '200px', marginLeft: '50px' }}
                                     defaultValue={UserInfo.password}
                                     disabled={!isEdit}

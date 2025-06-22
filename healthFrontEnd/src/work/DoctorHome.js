@@ -9,7 +9,7 @@ import NewHistoryModal from "./NewHistoryModal"
 import { optionActions } from "./redux/options"
 import { userActions } from "./redux/user"
 import HistoryModal from "./HistoryModal"
-import { useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 
 const TableDoctorStyles = {
 
@@ -35,6 +35,9 @@ const DoctorHome = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [errorPage, setErrorPage] = useState(false)
     const Token = useSelector(auth => auth.auth.token)
+    const location = useLocation()
+    let currentToken = location.state.token
+
 
     const toggle = () => {
         setDropdownOpen(!dropdownOpen)
@@ -51,8 +54,8 @@ const DoctorHome = () => {
             const userData = JSON.parse(isUserLoggedIn)
             const requestOptions = {
                 method: 'GET',
-                headers: { 'Authorization': `Bearer ${Token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify("")
+                headers: { 'Authorization': `Bearer ${currentToken}`, 'Content-Type': 'application/json' }
+
             }
             Promise.all([fetch(`/myApi/doctorusers?DoctorID=${userData.id}`, requestOptions)]).then((res => {
                 if (res[0].ok) {
@@ -61,7 +64,7 @@ const DoctorHome = () => {
                 return Promise.reject(res)
             })).then((res) => {
                 const response = res[0]
-                setData(response)
+                setData(response.items)
                 Promise.all([fetch(`/myApi/users`), requestOptions]).then((res => {
                     if (res[0].ok) {
                         return Promise.all([res[0].json()])
@@ -130,6 +133,7 @@ const DoctorHome = () => {
     ]
 
     useLayoutEffect(() => {
+
         FetchData()
     }, [])
 
