@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: ./HealthCardApi
+    ports:
+      - "5000:80"
+  frontend:
+    build:
+      context: ./healthFrontEnd
+    ports:
+      - "3000:80"
