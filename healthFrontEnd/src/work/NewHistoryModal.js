@@ -69,17 +69,26 @@ const NewHistoryModal = (props) => {
                 body: JSON.stringify(newHistory)
             }
 
-            Promise.all([fetch(`/myApi/history/add`, requestOptions)]).then((res) => {
+            Promise.all([fetch(`/history/add`, requestOptions)]).then((res) => {
                 if (res[0].ok) {
                     return Promise.all([res[0].json()])
                 }
                 return Promise.reject(res)
 
             }).then((res) => {
-                const response = res[0]
-                toast.success("Saved successfully !")
-                props.FetchData()
-                props.setIsOpen(false)
+                const success = res[0].success
+                const message = res[0].message
+                const items = res[0].items
+
+                if (!success) {
+                    toast.error(message)
+                }
+                else {
+                    const response = items
+                    toast.success("Saved successfully !")
+                    props.FetchData()
+                    props.setIsOpen(false)
+                }
             }).catch((e) => {
                 toast.error("Error at saving new history...")
                 props.setIsOpen(false)

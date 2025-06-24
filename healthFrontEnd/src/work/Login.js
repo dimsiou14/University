@@ -58,7 +58,7 @@ const Login = () => {
     let userLocal = 0
 
     let localToken = ""
-    Promise.all([fetch('/myApi/auth', requestOptions)])
+    Promise.all([fetch('/auth/user', requestOptions)])
       .then((res) => {
         if (res[0].ok) {
           return Promise.all([res[0].json()])
@@ -104,15 +104,24 @@ const Login = () => {
               body: JSON.stringify(createOtpItem)
             }
 
-            Promise.all([fetch('/myApi/otp/create', requestOptions1)])
+            Promise.all([fetch('/auth/otp/create', requestOptions1)])
               .then((res) => {
                 if (res[0].ok) {
                   return Promise.all([res[0].text()])
                 }
                 return Promise.reject(res)
               }).then((res) => {
-                const responseCreate = res[0]
-                setIsOtpModalOpen(true)
+                const success = res[0].success
+                const message = res[0].message
+                const items = res[0].items
+
+                if (!success) {
+                  toast.error(message)
+                }
+                else {
+                  const responseCreate = items
+                  setIsOtpModalOpen(true)
+                }
 
               }).catch((e) => {
                 setIsOtpModalOpen(false)
@@ -154,16 +163,25 @@ const Login = () => {
         body: JSON.stringify(postVariables)
       }
 
-      Promise.all([fetch('/myApi/newUser', requestOptions)])
+      Promise.all([fetch('/user/save', requestOptions)])
         .then((res) => {
           if (res[0].ok) {
             return Promise.all([res[0].json()])
           }
           return Promise.reject(res)
         }).then((res) => {
-          console.log(res[0])
-          toast.success("New user saved successfully !")
-          setActiveTab(1)
+          const success = res[0].success
+          const message = res[0].message
+          const items = res[0].items
+
+          if (!success) {
+            toast.error(message)
+          }
+          else {
+
+            toast.success("New user saved successfully !")
+            setActiveTab(1)
+          }
         }).catch((e) => {
           console.log("Failed to sign up user..!")
         })
@@ -190,23 +208,32 @@ const Login = () => {
         body: JSON.stringify(auth)
       }
 
-      Promise.all([fetch('/myApi/authOTP', requestOptions)])
+      Promise.all([fetch('/auth/otp', requestOptions)])
         .then((res) => {
           if (res[0].ok) {
             return Promise.all([res[0].json()])
           }
           return Promise.reject(res)
         }).then((res) => {
-          const responseUser = res[0]
-          dispatch(userActions.SetUser(responseUser))
-          localStorage.setItem('user', JSON.stringify(responseUser))
-          toast.success('Login successfully')
-          setIsOpenCardProfile(true)
-          setHasLogedIn(true)
-          if (responseUser.type === 1) {
-            setIsDoctor(true)
+          const success = res[0].success
+          const message = res[0].message
+          const items = res[0].items
+
+          if (!success) {
+            toast.error(message)
           }
-          setIsOtpModalOpen(false)
+          else {
+            const responseUser = items
+            dispatch(userActions.SetUser(responseUser))
+            localStorage.setItem('user', JSON.stringify(responseUser))
+            toast.success('Login successfully')
+            setIsOpenCardProfile(true)
+            setHasLogedIn(true)
+            if (responseUser.type === 1) {
+              setIsDoctor(true)
+            }
+            setIsOtpModalOpen(false)
+          }
 
         }).catch((e) => {
           toast.error("Failed to auth with otp code")

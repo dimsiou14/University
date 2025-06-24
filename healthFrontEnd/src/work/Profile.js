@@ -49,22 +49,31 @@ const Profile = () => {
             objToSave.push(UserInfo.id.toString())
 
             const requestOptions = {
-                method: 'POST',
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(objToSave)
             }
 
-            Promise.all([fetch('/myApi/newUser', requestOptions)])
+            Promise.all([fetch('/user/save', requestOptions)])
                 .then((res) => {
                     if (res[0].ok) {
                         return Promise.all([res[0].json()])
                     }
                     return Promise.reject(res)
                 }).then((res) => {
-                    const response = res[0]
-                    dispatch(userActions.SetUser(response))
-                    setIsEdit(false)
-                    toast.success("User info updated successfully !")
+                    const success = res[0].success
+                    const message = res[0].message
+                    const items = res[0].items
+
+                    if (!success) {
+                        toast.error(message)
+                    }
+                    else {
+                        const response = items
+                        dispatch(userActions.SetUser(response))
+                        setIsEdit(false)
+                        toast.success("User info updated successfully !")
+                    }
 
                 }).catch((e) => {
                     console.log("Failed to sign up user..!")

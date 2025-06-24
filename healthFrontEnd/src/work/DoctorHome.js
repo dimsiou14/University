@@ -57,35 +57,52 @@ const DoctorHome = () => {
                 headers: { 'Authorization': `Bearer ${currentToken}`, 'Content-Type': 'application/json' }
 
             }
-            Promise.all([fetch(`/myApi/doctorusers?DoctorID=${userData.id}`, requestOptions)]).then((res => {
+            Promise.all([fetch(`/user/doctorusers?DoctorID=${userData.id}`, requestOptions)]).then((res => {
                 if (res[0].ok) {
                     return Promise.all([res[0].json()])
                 }
                 return Promise.reject(res)
             })).then((res) => {
-                const response = res[0]
-                setData(response.items)
-                Promise.all([fetch(`/myApi/users`), requestOptions]).then((res => {
-                    if (res[0].ok) {
-                        return Promise.all([res[0].json()])
-                    }
-                    return Promise.reject(res)
-                })).then((res) => {
-                    const response = res[0]
-                    const patientList = []
-                    response.map((p) => {
-                        if (p.type === 0) {
-                            patientList.push({
-                                label: p.name,
-                                value: p.id.toString()
-                            })
-                        }
-                    })
-                    dispatch(optionActions.setPatientOptions(patientList))
-                }).catch((e) => {
+                const success = res[0].success
+                const message = res[0].message
+                const items = res[0].items
 
-                    toast.error('Failed to load doctor users..!')
-                })
+                if (!success) {
+                    toast.error(message)
+                }
+                else {
+                    setData(items)
+                    Promise.all([fetch(`/user/all`), requestOptions]).then((res => {
+                        if (res[0].ok) {
+                            return Promise.all([res[0].json()])
+                        }
+                        return Promise.reject(res)
+                    })).then((res) => {
+                        const success = res[0].success
+                        const message = res[0].message
+                        const items = res[0].items
+
+                        if (!success) {
+                            toast.error(message)
+                        }
+                        else {
+                            const response = items
+                            const patientList = []
+                            response.map((p) => {
+                                if (p.type === 0) {
+                                    patientList.push({
+                                        label: p.name,
+                                        value: p.id.toString()
+                                    })
+                                }
+                            })
+                            dispatch(optionActions.setPatientOptions(patientList))
+                        }
+                    }).catch((e) => {
+
+                        toast.error('Failed to load doctor users..!')
+                    })
+                }
             }).catch((e) => {
 
                 toast.error('Failed to load doctor users..!')

@@ -67,7 +67,7 @@ const HistoryModal = (props) => {
       name: "Perscription",
       cell: (data) => {
         return (
-          <a href={`https://localhost:8081/myApi/viewFile?imageSrc=${data.imageSrc}`} target="_blank">View</a>
+          <a href={`https://localhost:8081/file/view?imageSrc=${data.imageSrc}`} target="_blank">View</a>
         )
       }
     },

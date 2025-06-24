@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealthCardApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4876ba2b3ffde7e8d7659797e1ac703aa9013ffa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5952d80a9f15544dd0faa6aae2a2a07e63fa3e31")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealthCardApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealthCardApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

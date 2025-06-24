@@ -2,10 +2,8 @@ using HealthCardApi.Models;
 using HealthCardApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using myApi.Data;
-using myApi.Repository;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using System.Text;
@@ -48,10 +46,13 @@ try
     //MVC
     builder.Services.AddMvc();
     //Services
-    builder.Services.AddScoped<ImyApiRepository, myApiRepository>();
     builder.Services.AddScoped<IJWTService, JWTService>();
+    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<IHistoryService, HistoryService>();
+
     //Db Connection
-    builder.Services.AddDbContext<myApiDbContext>(options =>
+    builder.Services.AddDbContext<HealthCardDbContext>(options =>
     options.UseSqlServer("Data Source=;Initial Catalog=HealthApp;Encrypt=False;Integrated Security=True"));
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
