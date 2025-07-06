@@ -11,6 +11,7 @@ namespace HealthCardApi.Controllers
 
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
+
         public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
@@ -43,7 +44,6 @@ namespace HealthCardApi.Controllers
                 return StatusCode(500);
             }
         }
-
 
         [Authorize]
         [Route("user/info")]

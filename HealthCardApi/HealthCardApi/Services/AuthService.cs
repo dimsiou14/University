@@ -107,8 +107,7 @@ namespace HealthCardApi.Services
                 msg.Body = string.Format("OTP Code: {0}", OTPCode);
                 msg.From = new MailAddress("dimitris-147-@hotmail.com");
                 List<string> recipients = new List<string>();
-                recipients.Add(recip);
-                //recipients.Add("siountrisd@gmail.com");
+
                 foreach (string recipient in recipients)
                 {
                     msg.To.Add(recipient);
